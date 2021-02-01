@@ -120,7 +120,6 @@ const rocketHq = []
         // Below makes them randomly spawn from T and B 
             y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius    
         }
-        // y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius
         const color = 'purple'
         // Below deleted when 3 - 5
         // const velocity = {
