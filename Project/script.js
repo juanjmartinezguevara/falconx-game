@@ -1,6 +1,23 @@
 const canvas = document.querySelector('canvas')
+const context = canvas.getContext('2d')
 
-//Health and Mana
+//Juan updates
+let canvasW = window.innerWidth
+let canvasH = window.innerHeight
+
+canvas.width = canvasW
+canvas.height = canvasH
+
+window.onresize = function() {
+    canvas.width = canvasW
+    canvas.height = canvasH
+}
+
+//Ish original code
+// canvas.width = innerWidth
+// canvas.height = innerHeight
+
+//Health and Mana Bars
 let health = 100
 let mana = 100
 
@@ -21,16 +38,12 @@ if (health >= 70 && health <= 100) {
 
 document.getElementById('mana-fill').style.width = manaPct
 
-//Score and Level
+//Score and Level Counters
 score = 000
 level = 1
 
 document.getElementById('scoreNum').innerHTML = score
 document.getElementById('levelNum').innerHTML = level
-const context = canvas.getContext('2d')
-
-canvas.width = innerWidth
-canvas.height = innerHeight
 
 // Background imported
 // const spaceImg = new Image()
@@ -82,9 +95,16 @@ draw () {
         this.y = this.y + this.velocity.y
     }
 }
-//Create our player
-const falcon = new gShip(canvas.width / 2 - 50, 
-    canvas.height / 2, 
+//Create our player -- Ish original code
+// const falcon = new gShip(canvas.width / 2 - 50, 
+//     canvas.height / 2, 
+//     100, 
+//     100, 
+//     shipImg)
+
+//Juan changes
+const falcon = new gShip(canvasW / 2 - 50, 
+    canvasH / 2, 
     100, 
     100, 
     shipImg)
