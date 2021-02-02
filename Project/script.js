@@ -45,6 +45,19 @@ level = 1
 document.getElementById('scoreNum').innerHTML = score
 document.getElementById('levelNum').innerHTML = level
 
+//Buttons
+let startBtn = document.getElementById('start-btn')
+startBtn.onclick = function() {
+    document.getElementById('start-screen').style.display = 'none';
+}
+
+let pauseBtn = document.getElementById('pause-btn')
+let pauseBtnStatus = 'inactive'
+
+pauseBtn.onlick = function() {
+    document.getElementById('start-screen').style.display = 'flex';
+    console.log('Pause/Play button clicked.')
+}
 // Background imported
 // const spaceImg = new Image()
 // spaceImg.src = "../images/falconXBackground.png"
@@ -205,7 +218,8 @@ function play() {
     }
     
 }
-document.querySelector ("#buttonSound").onclick = play
+
+document.querySelector("#sound-btn").onclick = play
 
 
 
