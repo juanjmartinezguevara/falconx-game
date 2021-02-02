@@ -160,3 +160,82 @@ addEventListener('click', (event) => {
     })
 
     animate()
+
+
+
+
+
+
+
+    //STELIAN ADDING MUSIC AND IMAGES //////////// START LINE 170 
+    //*************SOUND*////////////////////
+
+//var audio = new Audio("../sounds/backgroundSound.mp3");
+//audio.play();
+
+let audio = new Audio('../sounds/backgroundSound.mp3');
+function play() {
+
+    if (audio.paused){
+        audio.play();
+    
+    } else {
+        audio.pause();
+
+    }
+    
+}
+document.querySelector ("#buttonSound").onclick = play
+
+
+
+let explosionAsteroid = new Audio('../sounds/Explosion+3.mp3');
+let explosionSapaceShip = new Audio('../sounds/Explosion+4.mp3');
+let gameOver = new Audio('../sounds/gameOver.mp3');
+let gameStart = new Audio('../sounds/gameStart.mp3');
+let gunSound = new Audio('../sounds/GunSound.mp3'); 
+
+
+
+
+
+
+
+
+//*******************IMAGES *//////////////////////
+
+
+let asteroidLg = new Image();
+asteroidLg.src = "../images/asteroidLg.png";
+
+let asteroidMed = new Image();
+asteroidMed.src = "../images/asteroidMed.png";
+
+let asteroidSm = new Image();
+asteroidSm.src = "../images/asteroidSm.png";
+
+let bullet = new Image();
+bullet.src = "../images/bullet.png";
+
+let bullet2 = new Image();
+bullet2.src = "../images/bullet2.png";
+
+let explosion = new Image();
+explosion.src = "../images/expplosion.png";
+
+let explosion2 = new Image();
+explosion2.src = "../images/expplosion2.png";
+
+let falconXBackground = new Image();
+falconXBackground.src = "../images/falconXBackground.png";
+
+let falconXSpaceship = new Image();
+falconXBSpaceship.src = "../images/falconXSpaceship.png";
+
+let powerUp = new Image();
+powerUp.src = "../images/powerUp.png";
+
+
+
+/////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
+///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
