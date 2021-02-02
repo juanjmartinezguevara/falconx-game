@@ -1,4 +1,6 @@
 const canvas = document.querySelector('canvas')
+let ctx = canvas.getContext("2d")
+
 
 //>>>> Global variables for spinning ship
 let gMouseX = 0
@@ -64,6 +66,19 @@ const context = canvas.getContext('2d')
 // canvas.width = innerWidth
 // canvas.height = innerHeight
 
+//Buttons
+let startBtn = document.getElementById('start-btn')
+startBtn.onclick = function() {
+    document.getElementById('start-screen').style.display = 'none';
+}
+
+let pauseBtn = document.getElementById('pause-btn')
+let pauseBtnStatus = 'inactive'
+
+pauseBtn.onlick = function() {
+    document.getElementById('start-screen').style.display = 'flex';
+    console.log('Pause/Play button clicked.')
+}
 // Background imported
 // const spaceImg = new Image()
 // spaceImg.src = "../images/falconXBackground.png"
@@ -254,7 +269,8 @@ function play() {
     }
     
 }
-document.querySelector ("#buttonSound").onclick = play
+
+document.querySelector("#sound-btn").onclick = play
 
 
 
@@ -308,3 +324,22 @@ powerUp.src = "../images/powerUp.png";
 
 /////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
 ///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function endGame() {
+    $("#canvasArea").hide();
+    $("#score").text(score);
+    $(".FinishScreen").show();
+}
