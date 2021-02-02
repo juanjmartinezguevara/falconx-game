@@ -1,5 +1,4 @@
 const canvas = document.querySelector('canvas')
-<<<<<<< HEAD:Project/js.js
 let ctx = canvas.getContext("2d")
 
 
@@ -17,25 +16,6 @@ document.addEventListener('mousemove', e => {
 
 //>>>Makes cursor a crosshair when on canvas
 document.getElementById("canvas").style.cursor="url('./images/crosshair.cur'), auto"
-=======
-const context = canvas.getContext('2d')
-
-//Juan updates
-let canvasW = window.innerWidth
-let canvasH = window.innerHeight
-
-canvas.width = canvasW
-canvas.height = canvasH
-
-window.onresize = function() {
-    canvas.width = canvasW
-    canvas.height = canvasH
-}
-
-//Ish original code
-// canvas.width = innerWidth
-// canvas.height = innerHeight
->>>>>>> 22fbf31d0bfa8ac3cbb8feff2e7115f31b514b02:Project/script.js
 
 //Health and Mana Bars
 let health = 100
@@ -64,13 +44,10 @@ level = 1
 
 document.getElementById('scoreNum').innerHTML = score
 document.getElementById('levelNum').innerHTML = level
-<<<<<<< HEAD:Project/js.js
 const context = canvas.getContext('2d')
 
 // canvas.width = innerWidth
 // canvas.height = innerHeight
-=======
->>>>>>> 22fbf31d0bfa8ac3cbb8feff2e7115f31b514b02:Project/script.js
 
 // Background imported
 // const spaceImg = new Image()
@@ -306,3 +283,22 @@ powerUp.src = "../images/powerUp.png";
 
 /////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
 ///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function endGame() {
+    $("#canvasArea").hide();
+    $("#score").text(score);
+    $(".FinishScreen").show();
+}
