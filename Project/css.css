@@ -1,3 +1,8 @@
 body {
     margin: 0;
 }
+canvas {
+    background: url(../images/falconXBackground.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
