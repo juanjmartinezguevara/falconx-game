@@ -1,5 +1,6 @@
 const canvas = document.querySelector('canvas')
 
+
 //>>>> Global variables for spinning ship
 let gMouseX = 0
 let gMouseY = 0
@@ -14,25 +15,8 @@ document.addEventListener('mousemove', e => {
 
 //>>>Makes cursor a crosshair when on canvas
 document.getElementById("canvas").style.cursor="url('./images/crosshair.cur'), auto"
-//const context = canvas.getContext('2d')
 
-//Juan updates
-let canvasW = window.innerWidth
-let canvasH = window.innerHeight
-
-canvas.width = canvasW
-canvas.height = canvasH
-
-window.onresize = function() {
-    canvas.width = canvasW
-    canvas.height = canvasH
-}
-
-//Ish original code
-// canvas.width = innerWidth
-// canvas.height = innerHeight
-
-//Health and Mana Bars
+//Health and Mana
 let health = 100
 let mana = 100
 
@@ -53,7 +37,7 @@ if (health >= 70 && health <= 100) {
 
 document.getElementById('mana-fill').style.width = manaPct
 
-//Score and Level Counters
+//Score and Level
 score = 000
 level = 1
 
@@ -91,20 +75,10 @@ class gShip {
 
         //>>>>>>this code calculates the radian for the angle as the mouse location rates to the center of the ship which is the origin 
         gShipAngleInRads = Math.atan2(actualMouseY-this.y, actualMouseX-this.x)
-        let centerOfShipX = this.x+(this.w/2)
-        let centerOfShipY = this.y+(this.h/2)
-        context.translate(centerOfShipX, centerOfShipY)
+
         //>>>>>>>This rotates the canvas by the calculated radian + 90 degrees
-        context.rotate(gShipAngleInRads + 90 * Math.PI/180)
-
-       
-        // console.log (-centerOfShipX, -centerOfShipY, 1000)
-        context.translate(-centerOfShipX, -centerOfShipY)  //This moves the 0,0 origin of the canvas to the center of the ship/car
-
-        // console.log(this.x+(this.w/2))
-        // console.log(this.y+(this.h/2))
-
-        // console.log(actualMouseX, actualMouseY)
+        ctx.rotate(gShipAngleInRads + 90 * Math.PI/180)
+        ctx.translate(-250, -350)  //This moves the 0,0 origin of the canvas to the center of the ship/car
 
         // console.log(gMouseX, gMouseY);
 
@@ -115,8 +89,8 @@ class gShip {
             this.h)
 
         //>>>>>>>returns canvas to prior un-rotated state
-        context.setTransform(1, 0, 0, 1, 0, 0)
-        // console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
+        ctx.setTransform(1, 0, 0, 1, 0, 0)
+        console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
     }
 }
 
@@ -144,16 +118,9 @@ draw () {
         this.y = this.y + this.velocity.y
     }
 }
-//Create our player -- Ish original code
-// const falcon = new gShip(canvas.width / 2 - 50, 
-//     canvas.height / 2, 
-//     100, 
-//     100, 
-//     shipImg)
-
-//Juan changes
-const falcon = new gShip(canvasW/2, 
-    canvasH/2, 
+//Create our player
+const falcon = new gShip(canvas.width / 2 - 50, 
+    canvas.height / 2, 
     100, 
     100, 
     shipImg)
@@ -229,82 +196,3 @@ addEventListener('click', (event) => {
     })
 
     animate()
-
-
-
-
-
-
-
-    //STELIAN ADDING MUSIC AND IMAGES //////////// START LINE 170 
-    //*************SOUND*////////////////////
-
-//var audio = new Audio("../sounds/backgroundSound.mp3");
-//audio.play();
-
-let audio = new Audio('../sounds/backgroundSound.mp3');
-function play() {
-
-    if (audio.paused){
-        audio.play();
-    
-    } else {
-        audio.pause();
-
-    }
-    
-}
-document.querySelector ("#buttonSound").onclick = play
-
-
-
-let explosionAsteroid = new Audio('../sounds/Explosion+3.mp3');
-let explosionSapaceShip = new Audio('../sounds/Explosion+4.mp3');
-let gameOver = new Audio('../sounds/gameOver.mp3');
-let gameStart = new Audio('../sounds/gameStart.mp3');
-let gunSound = new Audio('../sounds/GunSound.mp3'); 
-
-
-
-
-
-
-
-
-//*******************IMAGES *//////////////////////
-
-
-let asteroidLg = new Image();
-asteroidLg.src = "../images/asteroidLg.png";
-
-let asteroidMed = new Image();
-asteroidMed.src = "../images/asteroidMed.png";
-
-let asteroidSm = new Image();
-asteroidSm.src = "../images/asteroidSm.png";
-
-let bullet = new Image();
-bullet.src = "../images/bullet.png";
-
-let bullet2 = new Image();
-bullet2.src = "../images/bullet2.png";
-
-let explosion = new Image();
-explosion.src = "../images/expplosion.png";
-
-let explosion2 = new Image();
-explosion2.src = "../images/expplosion2.png";
-
-let falconXBackground = new Image();
-falconXBackground.src = "../images/falconXBackground.png";
-
-let falconXSpaceship = new Image();
-falconXSpaceship.src = "../images/falconXSpaceship.png";
-
-let powerUp = new Image();
-powerUp.src = "../images/powerUp.png";
-
-
-
-/////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
-///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
