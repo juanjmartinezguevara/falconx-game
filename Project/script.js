@@ -1,4 +1,5 @@
 const canvas = document.querySelector('canvas')
+<<<<<<< HEAD:Project/js.js
 let ctx = canvas.getContext("2d")
 
 
@@ -16,8 +17,27 @@ document.addEventListener('mousemove', e => {
 
 //>>>Makes cursor a crosshair when on canvas
 document.getElementById("canvas").style.cursor="url('./images/crosshair.cur'), auto"
+=======
+const context = canvas.getContext('2d')
 
-//Health and Mana
+//Juan updates
+let canvasW = window.innerWidth
+let canvasH = window.innerHeight
+
+canvas.width = canvasW
+canvas.height = canvasH
+
+window.onresize = function() {
+    canvas.width = canvasW
+    canvas.height = canvasH
+}
+
+//Ish original code
+// canvas.width = innerWidth
+// canvas.height = innerHeight
+>>>>>>> 22fbf31d0bfa8ac3cbb8feff2e7115f31b514b02:Project/script.js
+
+//Health and Mana Bars
 let health = 100
 let mana = 100
 
@@ -38,16 +58,19 @@ if (health >= 70 && health <= 100) {
 
 document.getElementById('mana-fill').style.width = manaPct
 
-//Score and Level
+//Score and Level Counters
 score = 000
 level = 1
 
 document.getElementById('scoreNum').innerHTML = score
 document.getElementById('levelNum').innerHTML = level
+<<<<<<< HEAD:Project/js.js
 const context = canvas.getContext('2d')
 
 // canvas.width = innerWidth
 // canvas.height = innerHeight
+=======
+>>>>>>> 22fbf31d0bfa8ac3cbb8feff2e7115f31b514b02:Project/script.js
 
 // Background imported
 // const spaceImg = new Image()
@@ -119,9 +142,16 @@ draw () {
         this.y = this.y + this.velocity.y
     }
 }
-//Create our player
-const falcon = new gShip(canvas.width / 2 - 50, 
-    canvas.height / 2, 
+//Create our player -- Ish original code
+// const falcon = new gShip(canvas.width / 2 - 50, 
+//     canvas.height / 2, 
+//     100, 
+//     100, 
+//     shipImg)
+
+//Juan changes
+const falcon = new gShip(canvasW / 2 - 50, 
+    canvasH / 2, 
     100, 
     100, 
     shipImg)
@@ -197,3 +227,82 @@ addEventListener('click', (event) => {
     })
 
     animate()
+
+
+
+
+
+
+
+    //STELIAN ADDING MUSIC AND IMAGES //////////// START LINE 170 
+    //*************SOUND*////////////////////
+
+//var audio = new Audio("../sounds/backgroundSound.mp3");
+//audio.play();
+
+let audio = new Audio('../sounds/backgroundSound.mp3');
+function play() {
+
+    if (audio.paused){
+        audio.play();
+    
+    } else {
+        audio.pause();
+
+    }
+    
+}
+document.querySelector ("#buttonSound").onclick = play
+
+
+
+let explosionAsteroid = new Audio('../sounds/Explosion+3.mp3');
+let explosionSapaceShip = new Audio('../sounds/Explosion+4.mp3');
+let gameOver = new Audio('../sounds/gameOver.mp3');
+let gameStart = new Audio('../sounds/gameStart.mp3');
+let gunSound = new Audio('../sounds/GunSound.mp3'); 
+
+
+
+
+
+
+
+
+//*******************IMAGES *//////////////////////
+
+
+let asteroidLg = new Image();
+asteroidLg.src = "../images/asteroidLg.png";
+
+let asteroidMed = new Image();
+asteroidMed.src = "../images/asteroidMed.png";
+
+let asteroidSm = new Image();
+asteroidSm.src = "../images/asteroidSm.png";
+
+let bullet = new Image();
+bullet.src = "../images/bullet.png";
+
+let bullet2 = new Image();
+bullet2.src = "../images/bullet2.png";
+
+let explosion = new Image();
+explosion.src = "../images/expplosion.png";
+
+let explosion2 = new Image();
+explosion2.src = "../images/expplosion2.png";
+
+let falconXBackground = new Image();
+falconXBackground.src = "../images/falconXBackground.png";
+
+let falconXSpaceship = new Image();
+falconXBSpaceship.src = "../images/falconXSpaceship.png";
+
+let powerUp = new Image();
+powerUp.src = "../images/powerUp.png";
+
+
+
+/////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
+///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
