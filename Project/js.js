@@ -41,6 +41,10 @@ canvas.height = innerHeight
 const shipImg = new Image()
 shipImg.src = "../images/falconXSpaceship.png"
 
+// Aseroids 
+const astSm = new Image()
+astSm.src = "../images/asteroidSm.png"
+
 class gShip {
     constructor(x, y, w, h, img) {
         this.x = x
@@ -48,17 +52,17 @@ class gShip {
         this.w = w
         this.h = h
         this.img = img
-}
-    draw(){
-        context.drawImage(this.img, 
-            this.x, 
-            this.y, 
-            this.w, 
-            this.h)
-    }
+        }
+        draw(){
+            context.drawImage(this.img, 
+                this.x, 
+                this.y, 
+                this.w, 
+                this.h)
+        }   
 }
 
-//Laser Weapon 1
+////Laser Weapon 1
 class Laser {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -66,28 +70,46 @@ class Laser {
         this.radius = radius
         this.color = color
         this.velocity = velocity
+        }
+        draw () {
+            context.beginPath()
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            context.fillStyle = this.color
+            context.fill()
+            }
+            // Laser Weapon 3
+            // Add velocity to each individual laser x and y 
+            // For each frame set x / y coordinate for each laser
+                update() {
+                    this.draw()
+                    this.x = this.x + this.velocity.x
+                    this.y = this.y + this.velocity.y
+                    }
+        }
+
+///Asteroids 1
+
+class Sasteroid{
+    constructor(x, y, w, h, img, velocity) {
+        this.x = x
+        this.y = y
+        this.w = w
+        this.h = h
+        this.img = img
+        this.velocity = velocity
+        }
+        draw () {
+            context.beginPath()
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            context.fillStyle = this.color
+            context.fill()
+            }
+                update() {
+                    this.draw()
+                    this.x = this.x + this.velocity.x
+                    this.y = this.y + this.velocity.y
+                    }
     }
-draw () {
-    context.beginPath()
-    context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    context.fillStyle = this.color
-    context.fill()
-}
-// Laser Weapon 3
-// Add velocity to each individual laser x and y 
-// For each frame set x / y coordinate for each laser
-    update() {
-        this.draw()
-        this.x = this.x + this.velocity.x
-        this.y = this.y + this.velocity.y
-    }
-}
-//Create our player
-const falcon = new gShip(canvas.width / 2 - 50, 
-    canvas.height / 2, 
-    100, 
-    100, 
-    shipImg)
 
 //Laser Weapon 2.2
   //Youll see clientX/Y when you click. 
@@ -107,9 +129,40 @@ const falcon = new gShip(canvas.width / 2 - 50,
     }
     )
 
+    //Create our player
+const falcon = new gShip(canvas.width / 2 - 50, 
+    canvas.height / 2, 
+    100, 
+    100, 
+    shipImg)
+
 //Laser Weapon 5
 //To get them rendered at the same time need to create array
 const lasers = []
+
+///Asteroid 3
+const sasteroids = []
+
+///Asteroid 2
+//First argument of setInterval callback function(code you want to call for each specific interval
+//you specify) Then its the time.
+function spawnSasteroids (){
+    setInterval(() => {
+        /// Asteroid 4
+        const x = 100
+        const y = 100
+        const w = 100
+        const h = 100
+        const img = astSm
+        const velocity = {
+            x: 1,
+            y: 1
+        }
+        sasteroids.push(new Sasteroid(x, y, w, h, img, velocity))
+        console.log(sasteroids)
+        /// Asteroid 4 ended here
+    }, 1000)
+}
 
 function animate() {
     requestAnimationFrame(animate)
@@ -122,6 +175,10 @@ function animate() {
     lasers.forEach((laser) => {
         laser.update()
         })
+    ///Asteroid 5
+    sasteroids.forEach((sasteroid) => {
+        sasteroid.update()
+    })
 }
 
 //Laser Weapon 2.1
@@ -160,3 +217,6 @@ addEventListener('click', (event) => {
     })
 
     animate()
+
+    /// Asteroids 2.5
+    spawnSasteroids()
