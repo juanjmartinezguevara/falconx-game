@@ -1,3 +1,83 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap');
+
+body, html {
+    padding: 0;
     margin: 0;
+    font-family: Orbitron;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    padding: 5px 20px;
+    background-color: slategray;
+    color: white;
+}
+
+h1 {
+    padding: 0 0 5px;
+    margin: 0;
+    font-size: 24px;
+}
+
+.bar {
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+    border: 1px solid black;
+    border-radius: 25px;
+    margin: 0;
+    width: 400px;
+}
+
+#health-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#mana-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#health-bar, #mana-bar {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    min-height: 18px;
+}
+
+#health-bar {
+    justify-content: flex-start;
+}
+
+#mana-bar {
+    justify-content: flex-end;
+}
+
+#health-fill, #mana-fill {
+    border-radius: 25px;
+    width: 25px;
+    min-height: 18px;
+}
+
+#health-fill {
+    text-align: left;
+    width: 0%;
+}
+
+#mana-fill {
+    background-color: blue;
+    text-align: right;
+    width: 0%;
 }
