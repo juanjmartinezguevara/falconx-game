@@ -1,3 +1,4 @@
+//Global canvas settings
 const canvas = document.querySelector('canvas')
 let ctx = canvas.getContext("2d")
 
@@ -68,18 +69,33 @@ const context = canvas.getContext('2d')
 // canvas.height = innerHeight
 
 //Buttons
-let startBtn = document.getElementById('start-btn')
-startBtn.onclick = function() {
-    document.getElementById('start-screen').style.display = 'none';
+
+function startGame() {
+    let startScreen = document.getElementById('start-screen');
+    if (startScreen.style.display === "none") {
+        startScreen.style.display = "block";
+    } else {
+        startScreen.style.display = "none";
+    }
+    //Should initiate animation
 }
 
-let pauseBtn = document.getElementById('pause-btn')
-let pauseBtnStatus = 'inactive'
-
-pauseBtn.onlick = function() {
-    document.getElementById('start-screen').style.display = 'flex';
-    console.log('Pause/Play button clicked.')
+function pause() {
+    let pauseScreen = document.getElementById('start-screen');
+    if (pauseScreen.style.display === "none") {
+        pauseScreen.style.display = "block";
+    } else {
+        pauseScreen.style.display = "none";
+    }
+    //Should halt animation
 }
+
+// startBtn.onclick = function() {
+//     document.getElementById('start-screen').style.display = 'none';
+// }
+
+
+
 // Background imported
 // const spaceImg = new Image()
 // spaceImg.src = "../images/falconXBackground.png"

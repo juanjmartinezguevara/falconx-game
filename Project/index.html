@@ -7,14 +7,10 @@
     <title>Falcon X</title>
 </head>
 <body>
-<<<<<<< HEAD
-    <canvas id="canvas" width="innerWidth" height="innerHeight"></canvas>
-=======
->>>>>>> 626dd1f958870cdf42e5b033c8e272e30898f9a9
     <div id='hamburger-menu'></div>
     <button id="buttonSound">Sound On/Off</button>
     <canvas id="canvas"></canvas>
-    <a id='pause-btn' href='#'>⏯</a>
+    <a id='pause-btn' onclick='pause()' href='#'>⏯</a>
     <div id='start-screen'>
         <div id='start-message'>
             <h1>How to Play</h1>
@@ -24,15 +20,12 @@
                 <li>Rack up points by destroying asteroids and watch your health!</li>
                 <li>To begin, click the start button!</li>
             </ol>
-            <a id='start-btn' href='#'>Start game</a>
-            <a id='sound-btn' href='#'>🔈</a>
+            <a id='start-btn' onclick="startGame()" href='#'>Start game</a>
+            <a id='sound-btn' onclick="soundBtn()" href='#'>🔈</a>
         </div>
     </div>
     <canvas></canvas>
-<<<<<<< HEAD
-=======
     <!-- <canvas id="canvas" width="innerWidth" height="innerHeight"></canvas> -->
->>>>>>> 626dd1f958870cdf42e5b033c8e272e30898f9a9
     <footer>
         <div id='health-section'>
             <h2>Health - <span id='health-points'>100%</span></h2>
