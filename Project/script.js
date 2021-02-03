@@ -1,4 +1,4 @@
-git const canvas = document.querySelector('canvas')
+const canvas = document.querySelector('canvas')
 let ctx = canvas.getContext("2d")
 
 
@@ -16,7 +16,7 @@ document.addEventListener('mousemove', e => {
 
 //>>>Makes cursor a crosshair when on canvas
 document.getElementById("canvas").style.cursor="url('./images/crosshair.cur'), auto"
-const context = canvas.getContext('2d')
+// const context = canvas.getContext('2d')
 
 //Juan updates
 let canvasW = window.innerWidth
@@ -61,13 +61,10 @@ level = 1
 
 document.getElementById('scoreNum').innerHTML = score
 document.getElementById('levelNum').innerHTML = level
-<<<<<<< HEAD:Project/js.js
 const context = canvas.getContext('2d')
 
 // canvas.width = innerWidth
 // canvas.height = innerHeight
-=======
->>>>>>> 22fbf31d0bfa8ac3cbb8feff2e7115f31b514b02:Project/script.js
 
 // Background imported
 // const spaceImg = new Image()
@@ -89,7 +86,6 @@ class gShip {
         this.w = w
         this.h = h
         this.img = img
-<<<<<<< HEAD:Project/js.js
         }
         draw(){
             context.drawImage(this.img, 
@@ -98,37 +94,36 @@ class gShip {
                 this.w, 
                 this.h)
         }   
-=======
+// }
+    // draw(){
+    //     //>>>>>This code gets the coord of the canvas    
+    //     let canvasXY = canvas.getBoundingClientRect()
+
+    //     //>>>>>This code adjusts the coord of the mouse on the page as it relates to the canvas
+    //     let actualMouseX = gMouseX - canvasXY.x
+    //     let actualMouseY = gMouseY - canvasXY.y
+
+    //     //>>>>>>this code calculates the radian for the angle as the mouse location rates to the center of the ship which is the origin 
+    //     gShipAngleInRads = Math.atan2(actualMouseY-this.y, actualMouseX-this.x)
+
+    //     //>>>>>>>This rotates the canvas by the calculated radian + 90 degrees
+    //     ctx.rotate(gShipAngleInRads + 90 * Math.PI/180)
+    //     ctx.translate(-250, -350)  //This moves the 0,0 origin of the canvas to the center of the ship/car
+
+    //     // console.log(gMouseX, gMouseY);
+
+    //     context.drawImage(this.img, 
+    //         this.x, 
+    //         this.y, 
+    //         this.w, 
+    //         this.h)
+
+    //     //>>>>>>>returns canvas to prior un-rotated state
+    //     ctx.setTransform(1, 0, 0, 1, 0, 0)
+    //     console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
+    
 }
-    draw(){
-        //>>>>>This code gets the coord of the canvas    
-        let canvasXY = canvas.getBoundingClientRect()
 
-        //>>>>>This code adjusts the coord of the mouse on the page as it relates to the canvas
-        let actualMouseX = gMouseX - canvasXY.x
-        let actualMouseY = gMouseY - canvasXY.y
-
-        //>>>>>>this code calculates the radian for the angle as the mouse location rates to the center of the ship which is the origin 
-        gShipAngleInRads = Math.atan2(actualMouseY-this.y, actualMouseX-this.x)
-
-        //>>>>>>>This rotates the canvas by the calculated radian + 90 degrees
-        ctx.rotate(gShipAngleInRads + 90 * Math.PI/180)
-        ctx.translate(-250, -350)  //This moves the 0,0 origin of the canvas to the center of the ship/car
-
-        // console.log(gMouseX, gMouseY);
-
-        context.drawImage(this.img, 
-            this.x, 
-            this.y, 
-            this.w, 
-            this.h)
-
-        //>>>>>>>returns canvas to prior un-rotated state
-        ctx.setTransform(1, 0, 0, 1, 0, 0)
-        console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
-    }
->>>>>>> 50fd1841616e681910caf293235aee1a81a8b495:Project/script.js
-}
 
 ////Laser Weapon 1
 class Laser {
@@ -155,8 +150,7 @@ class Laser {
                     }
         }
 
-///Asteroids 1
-
+///SM-Asteroids 1
 class Sasteroid{
     constructor(x, y, w, h, img, velocity) {
         this.x = x
@@ -167,25 +161,8 @@ class Sasteroid{
         this.velocity = velocity
         }
         draw () {
-            context.beginPath()
-            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-            context.fillStyle = this.color
-            context.fill()
+            context.drawImage(this.img, this.x, this.y, this.w, this.h)
             }
-                update() {
-                    this.draw()
-                    this.x = this.x + this.velocity.x
-                    this.y = this.y + this.velocity.y
-                    }
-    }
-<<<<<<< HEAD:Project/js.js
-=======
-draw () {
-    context.beginPath()
-    context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    context.fillStyle = this.color
-    context.fill()
-}
 // Laser Weapon 3
 // Add velocity to each individual laser x and y 
 // For each frame set x / y coordinate for each laser
@@ -208,7 +185,6 @@ const falcon = new gShip(canvasW / 2 - 50,
     100, 
     100, 
     shipImg)
->>>>>>> 50fd1841616e681910caf293235aee1a81a8b495:Project/script.js
 
 //Laser Weapon 2.2
   //Youll see clientX/Y when you click. 
@@ -228,13 +204,6 @@ const falcon = new gShip(canvasW / 2 - 50,
     }
     )
 
-    //Create our player
-const falcon = new gShip(canvas.width / 2 - 50, 
-    canvas.height / 2, 
-    100, 
-    100, 
-    shipImg)
-
 //Laser Weapon 5
 //To get them rendered at the same time need to create array
 const lasers = []
@@ -242,24 +211,47 @@ const lasers = []
 ///Asteroid 3
 const sasteroids = []
 
-///Asteroid 2
+///SM-Asteroid 2
 //First argument of setInterval callback function(code you want to call for each specific interval
 //you specify) Then its the time.
 function spawnSasteroids (){
     setInterval(() => {
-        /// Asteroid 4
-        const x = 100
-        const y = 100
-        const w = 100
+        ///SM-Asteroid 4
+        ///SM-Asteroid 6
+        // Declare x/y outside so you can reference outside of.
+        //Math.random produces anything from 0 to 1.
+        //If anything then less 0.5 its going to be 0 minus(a num to push behind screen on left)
+        //If greater than 0.5 will add and push off screen on the right
+        //If x is spawned of the left. Y should be 0 to canvas height
+        //If x spawned on top. Y should be 0 and X should be canvas width
+        let x
+        let y 
+        if(Math.random() < 0.5) {
+        x = Math.random() < 0.5 ? 0 - 100 : canvas.width + 100
+        y = Math.random() * canvas.height 
+        } else {
+        x = Math.random() * canvas.width
+        y = Math.random() < 0.5 ? 0 - 100 : canvas.height + 100
+    }
+  const w = 100
         const h = 100
         const img = astSm
-        const velocity = {
-            x: 1,
-            y: 1
-        }
+        //SM-Asteroid 5
+        //canvas.height/width is replaced with the destination when you want to change 
+        //Once falcon is figured out would go here 
+        // const velocity = {
+        //     x: 1,
+        //     y: 1
+        // }
+        const angle = Math.atan2(canvas.height / 2 - y,
+            canvas.width / 2 - x)
+            const velocity = {
+                x: Math.cos(angle),
+                y: Math.sin(angle)
+            }
+         //SM-Asteroid 5 End
         sasteroids.push(new Sasteroid(x, y, w, h, img, velocity))
-        console.log(sasteroids)
-        /// Asteroid 4 ended here
+        ///SM-Asteroid 4 ended here
     }, 1000)
 }
 
@@ -274,9 +266,18 @@ function animate() {
     lasers.forEach((laser) => {
         laser.update()
         })
-    ///Asteroid 5
+    ///SM-Asteroid 5
     sasteroids.forEach((sasteroid) => {
         sasteroid.update()
+    ////Blow stuff Up 1
+    //Removing the distance from the laser to the asteroid
+    // lasers.forEach((laser) => {
+    //     const dist = Math.hypot(laser.x - sasteroid.x, laser.y - sasteroid.y)
+    //     if (dist - sasteroid.x - laser.x < 1)
+    //     {
+    //         console.log(`remove`);
+    //     }
+    // })
     })
 }
 
@@ -317,86 +318,83 @@ addEventListener('click', (event) => {
 
     animate()
 
-<<<<<<< HEAD:Project/js.js
-    /// Asteroids 2.5
+    ///SM-Asteroids2.5
     spawnSasteroids()
-=======
 
 
 
 
 
 
-    //STELIAN ADDING MUSIC AND IMAGES //////////// START LINE 170 
-    //*************SOUND*////////////////////
+//     //STELIAN ADDING MUSIC AND IMAGES //////////// START LINE 170 
+//     //*************SOUND*////////////////////
 
-//var audio = new Audio("../sounds/backgroundSound.mp3");
-//audio.play();
+// //var audio = new Audio("../sounds/backgroundSound.mp3");
+// //audio.play();
 
-let audio = new Audio('../sounds/backgroundSound.mp3');
-function play() {
+// let audio = new Audio('../sounds/backgroundSound.mp3');
+// function play() {
 
-    if (audio.paused){
-        audio.play();
+//     if (audio.paused){
+//         audio.play();
     
-    } else {
-        audio.pause();
+//     } else {
+//         audio.pause();
 
-    }
+//     }
     
-}
-document.querySelector ("#buttonSound").onclick = play
+// }
+// document.querySelector ("#buttonSound").onclick = play
 
 
 
-let explosionAsteroid = new Audio('../sounds/Explosion+3.mp3');
-let explosionSapaceShip = new Audio('../sounds/Explosion+4.mp3');
-let gameOver = new Audio('../sounds/gameOver.mp3');
-let gameStart = new Audio('../sounds/gameStart.mp3');
-let gunSound = new Audio('../sounds/GunSound.mp3'); 
-
-
-
-
+// let explosionAsteroid = new Audio('../sounds/Explosion+3.mp3');
+// let explosionSapaceShip = new Audio('../sounds/Explosion+4.mp3');
+// let gameOver = new Audio('../sounds/gameOver.mp3');
+// let gameStart = new Audio('../sounds/gameStart.mp3');
+// let gunSound = new Audio('../sounds/GunSound.mp3'); 
 
 
 
 
-//*******************IMAGES *//////////////////////
-
-
-let asteroidLg = new Image();
-asteroidLg.src = "../images/asteroidLg.png";
-
-let asteroidMed = new Image();
-asteroidMed.src = "../images/asteroidMed.png";
-
-let asteroidSm = new Image();
-asteroidSm.src = "../images/asteroidSm.png";
-
-let bullet = new Image();
-bullet.src = "../images/bullet.png";
-
-let bullet2 = new Image();
-bullet2.src = "../images/bullet2.png";
-
-let explosion = new Image();
-explosion.src = "../images/expplosion.png";
-
-let explosion2 = new Image();
-explosion2.src = "../images/expplosion2.png";
-
-let falconXBackground = new Image();
-falconXBackground.src = "../images/falconXBackground.png";
-
-let falconXSpaceship = new Image();
-falconXBSpaceship.src = "../images/falconXSpaceship.png";
-
-let powerUp = new Image();
-powerUp.src = "../images/powerUp.png";
 
 
 
-/////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
-///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
->>>>>>> 50fd1841616e681910caf293235aee1a81a8b495:Project/script.js
+
+// //*******************IMAGES *//////////////////////
+
+
+// let asteroidLg = new Image();
+// asteroidLg.src = "../images/asteroidLg.png";
+
+// let asteroidMed = new Image();
+// asteroidMed.src = "../images/asteroidMed.png";
+
+// let asteroidSm = new Image();
+// asteroidSm.src = "../images/asteroidSm.png";
+
+// let bullet = new Image();
+// bullet.src = "../images/bullet.png";
+
+// let bullet2 = new Image();
+// bullet2.src = "../images/bullet2.png";
+
+// let explosion = new Image();
+// explosion.src = "../images/expplosion.png";
+
+// let explosion2 = new Image();
+// explosion2.src = "../images/expplosion2.png";
+
+// let falconXBackground = new Image();
+// falconXBackground.src = "../images/falconXBackground.png";
+
+// let falconXSpaceship = new Image();
+// falconXBSpaceship.src = "../images/falconXSpaceship.png";
+
+// let powerUp = new Image();
+// powerUp.src = "../images/powerUp.png";
+
+
+
+// /////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
+// ///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
