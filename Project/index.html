@@ -7,9 +7,11 @@
     <title>Falcon X</title>
 </head>
 <body>
-    <div id='hamburger-menu'></div>
-    <button id="sound-btn">Sound On/Off</button>
-    <a id='pause-btn' onclick='pause()' href='#'>⏯</a>
+    <canvas id="canvas" width="innerWidth" height="innerHeight"></canvas>
+    <!-- <div id='hamburger-menu'></div> -->
+    <button id="buttonSound">Sound On/Off</button>
+    <!-- <canvas id="canvas"></canvas> -->
+    <a id='pause-btn' href='#'>⏯</a>
     <div id='start-screen'>
         <div id='start-message'>
             <h1>How to Play</h1>
@@ -19,30 +21,41 @@
                 <li>Rack up points by destroying asteroids and watch your health!</li>
                 <li>To begin, click the start button!</li>
             </ol>
-            <a id='start-btn' onclick="startGame()" href='#'>Start game</a>
-            <a id='sound-btn' onclick="soundBtn()" href='#'>🔈</a>
+            <a id='start-btn' onclick='startGame()' href='#'>Start game</a>
+            <a id='sound-btn' onclick='pause()' href='#'>🔈</a>
         </div>
     </div>
-    <canvas id="canvas"></canvas>
+    <canvas></canvas>
+    <!-- <canvas id="canvas" width="innerWidth" height="innerHeight"></canvas> -->
     <footer>
         <div id='health-section'>
-            <h1>Health - <span id='health-points'>100%</span></h1>
+            <h2>Health - <span id='health-points'>100%</span></h2>
             <div class='bar' id='health-bar'><span id='health-fill'></span></div>
         </div>
 
-        <div id='score'>
-            <h1>Score: <span id='scoreNum'>000</span></h1>
+        <div id='level'>
+            <h2>Level: <span id='levelNum'>0</span></h2>
         </div>
 
-        <div id='level'>
-            <h1>Level: <span id='levelNum'>0</span></h1>
+        <div id='score'>
+            <h2>Score: <span id='scoreNum'>000</span></h2>
         </div>
 
         <div id='mana-section'>
-            <h1><span id='mana-points'>0%</span> - Mana</h1>
+            <h2><span id='mana-points'>0%</span> - Mana</h2>
             <div class='bar' id='mana-bar'><span id='mana-fill'></span></div>
         </div>
     </footer>
+    <div id='gameover-screen'>
+        <div id='gameover-message'>
+            <h1>Game Over</h1>
+            <div id='score'>
+                <h2>Score: <span id='scoreNum'>000</span></h2>
+            </div>
+            <a id='replay-btn' href='#'>Play Again</a>
+            <a id='sound-btn' href='#'>🔈</a>
+        </div>
+    </div>
     <script src ="./script.js"></script>
 </body>
 </html>

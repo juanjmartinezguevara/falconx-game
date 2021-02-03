@@ -74,10 +74,10 @@ function startGame() {
 
 function pause() {
     let pauseScreen = document.getElementById('start-screen');
-    if (pauseScreen.style.display === "none") {
-        pauseScreen.style.display = "block";
+    if (startScreen.style.display === "none") {
+        startScreen.style.display = "block";
     } else {
-        pauseScreen.style.display = "none";
+        startScreen.style.display = "none";
     }
     //Should halt animation
 }
