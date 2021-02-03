@@ -61,7 +61,6 @@ document.getElementById("scoreNum").innerHTML = score;
 document.getElementById("levelNum").innerHTML = level;
 
 //Buttons
-
 function startGame() {
     let startScreen = document.getElementById('start-screen');
     if (startScreen.style.display === "none") {
@@ -69,8 +68,7 @@ function startGame() {
     } else {
         startScreen.style.display = "none";
     }
-    //Should initiate animation
-}
+} //Should initiate animation
 
 function pause() {
     let startScreen = document.getElementById('start-screen');
@@ -79,19 +77,7 @@ function pause() {
     } else {
         startScreen.style.display = "none";
     }
-    //Should halt animation
-}
-
-// startBtn.onclick = function() {
-//     document.getElementById('start-screen').style.display = 'none';
-// }
-
-
-
-// Background imported
-// const spaceImg = new Image()
-// spaceImg.src = "../images/falconXBackground.png"
-// const space = { x: 0, y: 0, w: canvas.width, h: canvas.height, img: spaceImg }
+} //Should halt animation
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SPACESHIP
 // Ship Image imported
@@ -106,6 +92,7 @@ class gShip {
     this.h = h;
     this.img = img;
   }
+
   draw() {
     //>>>>>This code gets the coord of the canvas
     let canvasXY = canvas.getBoundingClientRect();
@@ -169,10 +156,10 @@ window.onkeydown = function (e) {
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Collisions
 let explosion = new Image();
-explosion.src = "../images/expplosion.png";
+explosion.src = "../images/explosion.png";
 
 let explosion2 = new Image();
-explosion2.src = "../images/expplosion2.png";
+explosion2.src = "../images/explosion2.png";
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Power Up
 let powerUp = new Image();
@@ -199,15 +186,27 @@ class Sasteroid {
     this.img = img;
     this.velocity = velocity;
   }
+
   draw() {
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    // shipAstCollision(falcon, this);
   }
 
   update() {
     this.draw();
     this.x = this.x + this.velocity.x;
     this.y = this.y + this.velocity.y;
-  }
+  }  
+}
+
+// ASTEROID - SHIP COLLISION DETECTION
+function shipAstCollision(ship, ast) {
+    if (ship.x < ast.x + ast.w &&
+        ship.x + ship.w > ast.x &&
+        ship.y < ast.y + ast.h &&
+        ship.y + ship.h > ast.y) {
+            console.log('Collision!');
+    }
 }
 
 ///Asteroid 3
@@ -350,6 +349,8 @@ function endGame() {
   $(".FinishScreen").show();
 }
 
+// collision
+
 function animate() {
   requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -378,6 +379,11 @@ function animate() {
     //         console.log(`remove`);
     //     }
     // })
+
+    //SHIP-AST COLLISION
+    // for (sasteroids.forEach) {
+    //     shipAstCollision(falcon, sasteroids[i])
+    // }
   });
 }
 
