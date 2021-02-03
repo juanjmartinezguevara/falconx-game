@@ -65,7 +65,7 @@ document.getElementById("levelNum").innerHTML = level;
 function startGame() {
     let startScreen = document.getElementById('start-screen');
     if (startScreen.style.display === "none") {
-        startScreen.style.display = "block";
+        startScreen.style.display = "flex";
     } else {
         startScreen.style.display = "none";
     }
@@ -73,9 +73,9 @@ function startGame() {
 }
 
 function pause() {
-    let pauseScreen = document.getElementById('start-screen');
+    let startScreen = document.getElementById('start-screen');
     if (startScreen.style.display === "none") {
-        startScreen.style.display = "block";
+        startScreen.style.display = "flex";
     } else {
         startScreen.style.display = "none";
     }
