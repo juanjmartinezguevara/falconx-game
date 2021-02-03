@@ -300,9 +300,15 @@ const lasers = [];
 addEventListener("click", (event) => {
   //Laser Weapon 8. Distance from mouse and center of the screen
   // 0 to 6.28 is equal to 0 to 360. Get exact angle from right triangle to center
+
+  let canvasXY = canvas.getBoundingClientRect();
+  let actualMouseClickX = event.clientX - canvasXY.x
+  let actualMouseClickY = event.clientY - canvasXY.y
+
+  console.log(event.clientX, event.clientY, actualMouseClickX, actualMouseClickY)
   const angle = Math.atan2(
-    event.clientY - canvas.height / 2,
-    event.clientX - canvas.width / 2
+    actualMouseClickY - falcon.y + 70,
+    actualMouseClickX - falcon.x +52
   );
   //Laser Weapon 9
   // 'velocity is reeally more or less the direction or angle that the bullet is moving
@@ -312,8 +318,12 @@ addEventListener("click", (event) => {
   };
   //Laser Weapon 7
   //this is where the laser is added to the class
+
+  /// locate center of ship for origin of laser
+//   let centerOfShipX = falcon.x + 52;
+//     let centerOfShipY = falcon.y + 70;
   lasers.push(
-    new Laser(canvas.width / 2, canvas.height / 2, 5, "orange", velocity)
+    new Laser(falcon.x + 52, falcon.y + 70, 5, "orange", velocity)
   );
 });
 
@@ -355,7 +365,11 @@ function animate() {
   requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  //Laser Weapon 7
+
+    //calls falcon draw funtion - which is where it moves and spins
+    falcon.draw();
+
+      //Laser Weapon 7
   //Calls laser update funtion for every active laser
   lasers.forEach((laser) => {
     laser.update();
@@ -365,26 +379,31 @@ function animate() {
   //calls the asteroid update function for every asteroid
   sasteroids.forEach((sasteroid) => {
     sasteroid.update();
+  
 
-    //calls falcon draw funtion - which is where it moves and spins
-    falcon.draw();
+    lasers.forEach((laser) => {
+// console.log(laser)
+// console.log(sasteroid)
+      laser.w = laser.radius*2
+      laser.h = laser.radius*2
+     detectCollision(laser, sasteroid)
+      });
+      })
+    }
 
-    //Collisions code in progress
-    ////Blow stuff Up 1
-    //Removing the distance from the laser to the asteroid
-    // lasers.forEach((laser) => {
-    //     const dist = Math.hypot(laser.x - sasteroid.x, laser.y - sasteroid.y)
-    //     if (dist - sasteroid.x - laser.x < 1)
-    //     {
-    //         console.log(`remove`);
-    //     }
-    // })
+function detectCollision(rect1, rect2) {
+  if (rect1.x < rect2.x + rect2.w &&
+    rect1.x + rect1.w > rect2.x &&
+    rect1.y < rect2.y + rect2.h &&
+    rect1.y + rect1.h > rect2.y) {
 
-    //SHIP-AST COLLISION
-    // for (sasteroids.forEach) {
-    //     shipAstCollision(falcon, sasteroids[i])
-    // }
-  });
+      console.log("Collissioooooon")
+      lasers.splice(lasers.indexOf(rect1),1)
+      sasteroids.splice(sasteroids.indexOf(rect2),1)
+
+
+ }
+ 
 }
 
 animate();
