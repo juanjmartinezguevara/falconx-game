@@ -364,7 +364,11 @@ function animate() {
   requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  //Laser Weapon 7
+
+    //calls falcon draw funtion - which is where it moves and spins
+    falcon.draw();
+
+      //Laser Weapon 7
   //Calls laser update funtion for every active laser
   lasers.forEach((laser) => {
     laser.update();
@@ -375,20 +379,33 @@ function animate() {
   sasteroids.forEach((sasteroid) => {
     sasteroid.update();
 
-    //calls falcon draw funtion - which is where it moves and spins
-    falcon.draw();
-
-    //Collisions code in progress
-    ////Blow stuff Up 1
-    //Removing the distance from the laser to the asteroid
-    // lasers.forEach((laser) => {
-    //     const dist = Math.hypot(laser.x - sasteroid.x, laser.y - sasteroid.y)
-    //     if (dist - sasteroid.x - laser.x < 1)
-    //     {
-    //         console.log(`remove`);
-    //     }
-    // })
+    lasers.forEach((laser) => {
+// console.log(laser)
+// console.log(sasteroid)
+     
+      if (Distance(laser, sasteroid) === true)
+      {
+        console.log(' remove from screen')
+      }
   });
+  })
 }
+
+function Distance(laser, sasteroid) {
+  let distX = Math.abs(laser.x - ((sasteroid.x - sasteroid.w) / 2));
+  let distY = Math.abs(laser.y - ((sasteroid.y - sasteroid.h) / 2));
+      if (distX > (sasteroid.w/2 + laser.radius)) {
+          return false;}
+      else if (distY > (sasteroid.h/2 + laser.radius)) {
+          return false;}
+      else if (distX <= (sasteroid.w/2)) {git 
+          return true;}
+      else if (distY = (sasteroid.w/2)) {
+          return true;}
+  let dx = distX - astSm.w / 2;
+  let dy = distY - astSm.h / 2;
+
+  return(dx * dx + dy * dy <= (laser.radius * laser.radius))
+};
 
 animate();
