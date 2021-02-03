@@ -301,9 +301,15 @@ const lasers = [];
 addEventListener("click", (event) => {
   //Laser Weapon 8. Distance from mouse and center of the screen
   // 0 to 6.28 is equal to 0 to 360. Get exact angle from right triangle to center
+
+  let canvasXY = canvas.getBoundingClientRect();
+  let actualMouseClickX = event.clientX - canvasXY.x
+  let actualMouseClickY = event.clientY - canvasXY.y
+
+  console.log(event.clientX, event.clientY, actualMouseClickX, actualMouseClickY)
   const angle = Math.atan2(
-    event.clientY - canvas.height / 2,
-    event.clientX - canvas.width / 2
+    actualMouseClickY - falcon.y + 70,
+    actualMouseClickX - falcon.x +52
   );
   //Laser Weapon 9
   // 'velocity is reeally more or less the direction or angle that the bullet is moving
@@ -313,8 +319,12 @@ addEventListener("click", (event) => {
   };
   //Laser Weapon 7
   //this is where the laser is added to the class
+
+  /// locate center of ship for origin of laser
+//   let centerOfShipX = falcon.x + 52;
+//     let centerOfShipY = falcon.y + 70;
   lasers.push(
-    new Laser(canvas.width / 2, canvas.height / 2, 5, "orange", velocity)
+    new Laser(falcon.x + 52, falcon.y + 70, 5, "orange", velocity)
   );
 });
 
