@@ -1,6 +1,40 @@
-const canvas = document.querySelector('canvas')
+git const canvas = document.querySelector('canvas')
+let ctx = canvas.getContext("2d")
 
-//Health and Mana
+
+//>>>> Global variables for spinning ship
+let gMouseX = 0
+let gMouseY = 0
+let gShipAngleInRads = 0;
+
+//>>>>>>>>>> CHECKS FOR LOCATION OF MOUSE <<<<<<<<
+document.addEventListener('mousemove', e => {
+    gMouseX=e.pageX;
+    gMouseY=e.pageY;
+    // console.log(gMouseX, gMouseY);
+})
+
+//>>>Makes cursor a crosshair when on canvas
+document.getElementById("canvas").style.cursor="url('./images/crosshair.cur'), auto"
+const context = canvas.getContext('2d')
+
+//Juan updates
+let canvasW = window.innerWidth
+let canvasH = window.innerHeight
+
+canvas.width = canvasW
+canvas.height = canvasH
+
+window.onresize = function() {
+    canvas.width = canvasW
+    canvas.height = canvasH
+}
+
+//Ish original code
+// canvas.width = innerWidth
+// canvas.height = innerHeight
+
+//Health and Mana Bars
 let health = 100
 let mana = 100
 
@@ -21,16 +55,19 @@ if (health >= 70 && health <= 100) {
 
 document.getElementById('mana-fill').style.width = manaPct
 
-//Score and Level
+//Score and Level Counters
 score = 000
 level = 1
 
 document.getElementById('scoreNum').innerHTML = score
 document.getElementById('levelNum').innerHTML = level
+<<<<<<< HEAD:Project/js.js
 const context = canvas.getContext('2d')
 
-canvas.width = innerWidth
-canvas.height = innerHeight
+// canvas.width = innerWidth
+// canvas.height = innerHeight
+=======
+>>>>>>> 22fbf31d0bfa8ac3cbb8feff2e7115f31b514b02:Project/script.js
 
 // Background imported
 // const spaceImg = new Image()
@@ -52,6 +89,7 @@ class gShip {
         this.w = w
         this.h = h
         this.img = img
+<<<<<<< HEAD:Project/js.js
         }
         draw(){
             context.drawImage(this.img, 
@@ -60,6 +98,36 @@ class gShip {
                 this.w, 
                 this.h)
         }   
+=======
+}
+    draw(){
+        //>>>>>This code gets the coord of the canvas    
+        let canvasXY = canvas.getBoundingClientRect()
+
+        //>>>>>This code adjusts the coord of the mouse on the page as it relates to the canvas
+        let actualMouseX = gMouseX - canvasXY.x
+        let actualMouseY = gMouseY - canvasXY.y
+
+        //>>>>>>this code calculates the radian for the angle as the mouse location rates to the center of the ship which is the origin 
+        gShipAngleInRads = Math.atan2(actualMouseY-this.y, actualMouseX-this.x)
+
+        //>>>>>>>This rotates the canvas by the calculated radian + 90 degrees
+        ctx.rotate(gShipAngleInRads + 90 * Math.PI/180)
+        ctx.translate(-250, -350)  //This moves the 0,0 origin of the canvas to the center of the ship/car
+
+        // console.log(gMouseX, gMouseY);
+
+        context.drawImage(this.img, 
+            this.x, 
+            this.y, 
+            this.w, 
+            this.h)
+
+        //>>>>>>>returns canvas to prior un-rotated state
+        ctx.setTransform(1, 0, 0, 1, 0, 0)
+        console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
+    }
+>>>>>>> 50fd1841616e681910caf293235aee1a81a8b495:Project/script.js
 }
 
 ////Laser Weapon 1
@@ -110,6 +178,37 @@ class Sasteroid{
                     this.y = this.y + this.velocity.y
                     }
     }
+<<<<<<< HEAD:Project/js.js
+=======
+draw () {
+    context.beginPath()
+    context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    context.fillStyle = this.color
+    context.fill()
+}
+// Laser Weapon 3
+// Add velocity to each individual laser x and y 
+// For each frame set x / y coordinate for each laser
+    update() {
+        this.draw()
+        this.x = this.x + this.velocity.x
+        this.y = this.y + this.velocity.y
+    }
+}
+//Create our player -- Ish original code
+// const falcon = new gShip(canvas.width / 2 - 50, 
+//     canvas.height / 2, 
+//     100, 
+//     100, 
+//     shipImg)
+
+//Juan changes
+const falcon = new gShip(canvasW / 2 - 50, 
+    canvasH / 2, 
+    100, 
+    100, 
+    shipImg)
+>>>>>>> 50fd1841616e681910caf293235aee1a81a8b495:Project/script.js
 
 //Laser Weapon 2.2
   //Youll see clientX/Y when you click. 
@@ -218,5 +317,86 @@ addEventListener('click', (event) => {
 
     animate()
 
+<<<<<<< HEAD:Project/js.js
     /// Asteroids 2.5
     spawnSasteroids()
+=======
+
+
+
+
+
+
+    //STELIAN ADDING MUSIC AND IMAGES //////////// START LINE 170 
+    //*************SOUND*////////////////////
+
+//var audio = new Audio("../sounds/backgroundSound.mp3");
+//audio.play();
+
+let audio = new Audio('../sounds/backgroundSound.mp3');
+function play() {
+
+    if (audio.paused){
+        audio.play();
+    
+    } else {
+        audio.pause();
+
+    }
+    
+}
+document.querySelector ("#buttonSound").onclick = play
+
+
+
+let explosionAsteroid = new Audio('../sounds/Explosion+3.mp3');
+let explosionSapaceShip = new Audio('../sounds/Explosion+4.mp3');
+let gameOver = new Audio('../sounds/gameOver.mp3');
+let gameStart = new Audio('../sounds/gameStart.mp3');
+let gunSound = new Audio('../sounds/GunSound.mp3'); 
+
+
+
+
+
+
+
+
+//*******************IMAGES *//////////////////////
+
+
+let asteroidLg = new Image();
+asteroidLg.src = "../images/asteroidLg.png";
+
+let asteroidMed = new Image();
+asteroidMed.src = "../images/asteroidMed.png";
+
+let asteroidSm = new Image();
+asteroidSm.src = "../images/asteroidSm.png";
+
+let bullet = new Image();
+bullet.src = "../images/bullet.png";
+
+let bullet2 = new Image();
+bullet2.src = "../images/bullet2.png";
+
+let explosion = new Image();
+explosion.src = "../images/expplosion.png";
+
+let explosion2 = new Image();
+explosion2.src = "../images/expplosion2.png";
+
+let falconXBackground = new Image();
+falconXBackground.src = "../images/falconXBackground.png";
+
+let falconXSpaceship = new Image();
+falconXBSpaceship.src = "../images/falconXSpaceship.png";
+
+let powerUp = new Image();
+powerUp.src = "../images/powerUp.png";
+
+
+
+/////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
+///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
+>>>>>>> 50fd1841616e681910caf293235aee1a81a8b495:Project/script.js
