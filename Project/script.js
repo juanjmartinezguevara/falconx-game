@@ -17,6 +17,7 @@ document.addEventListener('mousemove', e => {
 //>>>Makes cursor a crosshair when on canvas
 document.getElementById("canvas").style.cursor="url('./images/crosshair.cur'), auto"
 // const context = canvas.getContext('2d')
+//const context = canvas.getContext('2d')
 
 //Juan updates
 let canvasW = window.innerWidth
@@ -66,6 +67,19 @@ const context = canvas.getContext('2d')
 // canvas.width = innerWidth
 // canvas.height = innerHeight
 
+//Buttons
+let startBtn = document.getElementById('start-btn')
+startBtn.onclick = function() {
+    document.getElementById('start-screen').style.display = 'none';
+}
+
+let pauseBtn = document.getElementById('pause-btn')
+let pauseBtnStatus = 'inactive'
+
+pauseBtn.onlick = function() {
+    document.getElementById('start-screen').style.display = 'flex';
+    console.log('Pause/Play button clicked.')
+}
 // Background imported
 // const spaceImg = new Image()
 // spaceImg.src = "../images/falconXBackground.png"
@@ -94,38 +108,44 @@ class gShip {
                 this.w, 
                 this.h)
         }   
-// }
-    // draw(){
-    //     //>>>>>This code gets the coord of the canvas    
-    //     let canvasXY = canvas.getBoundingClientRect()
-
-    //     //>>>>>This code adjusts the coord of the mouse on the page as it relates to the canvas
-    //     let actualMouseX = gMouseX - canvasXY.x
-    //     let actualMouseY = gMouseY - canvasXY.y
-
-    //     //>>>>>>this code calculates the radian for the angle as the mouse location rates to the center of the ship which is the origin 
-    //     gShipAngleInRads = Math.atan2(actualMouseY-this.y, actualMouseX-this.x)
-
-    //     //>>>>>>>This rotates the canvas by the calculated radian + 90 degrees
-    //     ctx.rotate(gShipAngleInRads + 90 * Math.PI/180)
-    //     ctx.translate(-250, -350)  //This moves the 0,0 origin of the canvas to the center of the ship/car
-
-    //     // console.log(gMouseX, gMouseY);
-
-    //     context.drawImage(this.img, 
-    //         this.x, 
-    //         this.y, 
-    //         this.w, 
-    //         this.h)
-
-    //     //>>>>>>>returns canvas to prior un-rotated state
-    //     ctx.setTransform(1, 0, 0, 1, 0, 0)
-    //     console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
-    
 }
+        // //>>>>>This code gets the coord of the canvas    
+        // let canvasXY = canvas.getBoundingClientRect()
+
+        //>>>>>This code adjusts the coord of the mouse on the page as it relates to the canvas
+//         let actualMouseX = gMouseX - canvasXY.x
+//         let actualMouseY = gMouseY - canvasXY.y
+
+//         //>>>>>>this code calculates the radian for the angle as the mouse location rates to the center of the ship which is the origin 
+//         gShipAngleInRads = Math.atan2(actualMouseY-this.y, actualMouseX-this.x)
+//         let centerOfShipX = this.x+(this.w/2)
+//         let centerOfShipY = this.y+(this.h/2)
+//         context.translate(centerOfShipX, centerOfShipY)
+//         //>>>>>>>This rotates the canvas by the calculated radian + 90 degrees
+//         context.rotate(gShipAngleInRads + 90 * Math.PI/180)
+
+       
+//         // console.log (-centerOfShipX, -centerOfShipY, 1000)
+//         context.translate(-centerOfShipX, -centerOfShipY)  //This moves the 0,0 origin of the canvas to the center of the ship/car
+
+//         // console.log(this.x+(this.w/2))
+//         // console.log(this.y+(this.h/2))
+
+//         // console.log(actualMouseX, actualMouseY)
 
 
-////Laser Weapon 1
+// ////Laser Weapon 1
+//         context.drawImage(this.img, 
+//             this.x, 
+//             this.y, 
+//             this.w, 
+//             this.h)
+
+//         //>>>>>>>returns canvas to prior un-rotated state
+//         context.setTransform(1, 0, 0, 1, 0, 0)
+        // console.log(gMouseX, gMouseY, gShipAngleInRads, this.x, this.y);        
+
+//Laser Weapon 1
 class Laser {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -180,8 +200,8 @@ class Sasteroid{
 //     shipImg)
 
 //Juan changes
-const falcon = new gShip(canvasW / 2 - 50, 
-    canvasH / 2, 
+const falcon = new gShip(canvasW/2, 
+    canvasH/2, 
     100, 
     100, 
     shipImg)
@@ -345,6 +365,9 @@ addEventListener('click', (event) => {
     
 // }
 // document.querySelector ("#buttonSound").onclick = play
+// 
+
+document.querySelector("#sound-btn").onclick = play
 
 
 
@@ -388,13 +411,32 @@ addEventListener('click', (event) => {
 // let falconXBackground = new Image();
 // falconXBackground.src = "../images/falconXBackground.png";
 
-// let falconXSpaceship = new Image();
-// falconXBSpaceship.src = "../images/falconXSpaceship.png";
+let falconXSpaceship = new Image();
+falconXSpaceship.src = "../images/falconXSpaceship.png";
 
 // let powerUp = new Image();
 // powerUp.src = "../images/powerUp.png";
 
 
 
-// /////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
-// ///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
+/////////END STELIAN ADDING MUSIC AND IMAGES////// LINE 240
+///ALSO ADDED BUTTON FOR SOUND ON/OFF IN HTML ////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function endGame() {
+    $("#canvasArea").hide();
+    $("#score").text(score);
+    $(".FinishScreen").show();
+}
