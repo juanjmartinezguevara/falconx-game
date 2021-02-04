@@ -314,7 +314,7 @@ addEventListener("click", (event) => {
   //Laser Weapon 7
   //this is where the laser is added to the class
   lasers.push(
-    new Laser(canvas.width / 2, canvas.height / 2, 5, "orange", velocity)
+    new Laser(canvas.width / 2, canvas.height / 2, 10, "orange", velocity)
   );
 });
 
@@ -368,34 +368,32 @@ function animate() {
   //calls the asteroid update function for every asteroid
   sasteroids.forEach((sasteroid) => {
     sasteroid.update();
+  
 
     lasers.forEach((laser) => {
 // console.log(laser)
 // console.log(sasteroid)
-     
-      if (Distance(laser, sasteroid) === true)
-      {
-        console.log(' remove from screen')
-      }
-  });
-  })
+      laser.w = laser.radius*2
+      laser.h = laser.radius*2
+     detectCollision(laser, sasteroid)
+      });
+      })
+    }
+
+
+function detectCollision(rect1, rect2) {
+  if (rect1.x < rect2.x + rect2.w &&
+    rect1.x + rect1.w > rect2.x &&
+    rect1.y < rect2.y + rect2.h &&
+    rect1.y + rect1.h > rect2.y) {
+
+      console.log("Collissioooooon")
+      lasers.splice(lasers.indexOf(rect1),1)
+      sasteroids.splice(sasteroids.indexOf(rect2),1)
+
+
+ }
+ 
 }
-
-function Distance(laser, sasteroid) {
-  let distX = Math.abs(laser.x - ((sasteroid.x - sasteroid.w) / 2));
-  let distY = Math.abs(laser.y - ((sasteroid.y - sasteroid.h) / 2));
-      if (distX > (sasteroid.w/2 + laser.radius)) {
-          return false;}
-      else if (distY > (sasteroid.h/2 + laser.radius)) {
-          return false;}
-      else if (distX <= (sasteroid.w/2)) {git 
-          return true;}
-      else if (distY = (sasteroid.w/2)) {
-          return true;}
-  let dx = distX - astSm.w / 2;
-  let dy = distY - astSm.h / 2;
-
-  return(dx * dx + dy * dy <= (laser.radius * laser.radius))
-};
 
 animate();
