@@ -189,7 +189,6 @@ class Sasteroid {
 
   draw() {
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
-    // shipAstCollision(falcon, this);
   }
 
   update() {
@@ -199,15 +198,16 @@ class Sasteroid {
   }  
 }
 
-// ASTEROID - SHIP COLLISION DETECTION
-function shipAstCollision(ship, ast) {
-    if (ship.x < ast.x + ast.w &&
-        ship.x + ship.w > ast.x &&
-        ship.y < ast.y + ast.h &&
-        ship.y + ship.h > ast.y) {
-            console.log('Collision!');
-    }
-}
+  //*** NEW: SHIP-ASTEROID COLLISION FUNCTION *** >>> KEEP <<<
+//   function shipAstCollision(ship, ast) {
+//     if (ship.x < ast.x + ast.w &&
+//         ship.x + ship.w > ast.x &&
+//         ship.y < ast.y + ast.h &&
+//         ship.y + ship.h > ast.y) {
+//             console.log('Collision!');
+//             sasteroids.splice(sasteroids.indexOf(rect2),1);
+//     }
+// }
 
 ///Asteroid 3
 const sasteroids = [];
@@ -375,6 +375,12 @@ function animate() {
     laser.update();
   });
 
+  //*** NEW: SHIP-ASTEROID COLLISION ANIMATION *** >>> KEEP <<<
+//   sasteroids.forEach((sasteroid) => {
+//     sasteroid.update();
+//     shipAstCollision(falcon, sasteroid)
+// })
+
   ///SM-Asteroid 5
   //calls the asteroid update function for every asteroid
   sasteroids.forEach((sasteroid) => {
@@ -389,7 +395,7 @@ function animate() {
      detectCollision(laser, sasteroid)
       });
       })
-    }
+}
 
 function detectCollision(rect1, rect2) {
   if (rect1.x < rect2.x + rect2.w &&
@@ -400,10 +406,7 @@ function detectCollision(rect1, rect2) {
       console.log("Collissioooooon")
       lasers.splice(lasers.indexOf(rect1),1)
       sasteroids.splice(sasteroids.indexOf(rect2),1)
-
-
  }
- 
 }
 
 animate();
