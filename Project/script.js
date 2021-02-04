@@ -38,7 +38,7 @@ const scoreNum = document.querySelector("#scoreNum");
 // const health = document.querySelector("#health-points");
 
 //Health and Mana Bars
-let health = 5;
+let health = 100;
 let mana = 100;
 
 let healthPct = `${health}%`;
@@ -108,6 +108,19 @@ class gShip {
     context.translate(-centerOfShipX, -centerOfShipY);
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
     context.setTransform(1, 0, 0, 1, 0, 0);
+
+    if (shipHit > 0) {
+      console.log(shipHit, centerOfShipX, centerOfShipY)
+      
+      context.beginPath();
+      context.arc(centerOfShipX, centerOfShipY, 50, 0, 2 * Math.PI);
+      context.fillStyle = `rgb(255, 165, 0, 1)`;
+      context.fill();
+      
+      context.stroke();
+      shipHit -= .01;
+    }
+
 
     // //>>>>>> Draw line from ship to mouse for clarification of points while coding
     // context.beginPath();
@@ -193,6 +206,7 @@ class Sasteroid {
   }
 }
 
+let shipHit = 0
 // *** NEW: SHIP-ASTEROID COLLISION FUNCTION *** >>> KEEP <<<
 function shipAstCollision(ship, ast) {
   if (
@@ -201,9 +215,10 @@ function shipAstCollision(ship, ast) {
     ship.y < ast.y + ast.h &&
     ship.y + ship.h > ast.y
   ) {
-    console.log("SHIP Collision!");
+    // console.log("SHIP Collision!");
     sasteroids.splice(sasteroids.indexOf(ast), 1);
     health -= 5;
+    shipHit = 1;
 
     if (health == 0) {
       endGame()
@@ -309,24 +324,26 @@ function detectCollision(rect1, rect2) {
     }
   }
 
-
-
   const lasers = [];
 
   addEventListener("click", (event) => {
     let canvasXY = canvas.getBoundingClientRect();
 
     let actualMouseClickX = event.clientX - canvasXY.x;
-    let actualMouseClickY = event.clientY - canvasXY.y;
+    let actualMouseClickY = event.clientY- canvasXY.y;
 
-    // console.log(event.clientX, event.clientY, actualMouseClickX, actualMouseClickY)
+let centerShipX = falcon.x + 52
+let centerShipY = falcon.y + 70
+
+
     const angle =
-      -0.15 +
+      // -0.15 +
       Math.atan2(
-        actualMouseClickY - falcon.y + 70,
-        actualMouseClickX - falcon.x + 52
+        actualMouseClickY - centerShipY,
+        actualMouseClickX - centerShipX
       );
 
+      console.log( normalize(actualMouseClickX - falcon.x, 1, -1))
     const velocity = {
       x: Math.cos(angle),
       y: Math.sin(angle),
@@ -341,6 +358,8 @@ function detectCollision(rect1, rect2) {
       )
     );
   });
+
+  function normalize(val, max, min) { return (val - min) / (max - min); }
 
   //*************SOUND*////////////////////
 
@@ -381,12 +400,12 @@ function detectCollision(rect1, rect2) {
     gameloop = requestAnimationFrame(animate);
     animationCycles += 1;
 
-    if (animationCycles > 3600 && animationCycles < 7200) {
+    if (animationCycles > 2000 && animationCycles < 4000) {
       level = 2;
       document.querySelector("#levelNum").innerHTML = level;
       asteroidSpawnRate = 750;
       laserSpeed = 2
-    } else if (animationCycles > 7200) {
+    } else if (animationCycles > 4001) {
       level = 3;
       document.querySelector("#levelNum").innerHTML = level;
       asteroidSpawnRate = 500;
