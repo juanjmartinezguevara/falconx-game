@@ -32,6 +32,8 @@ window.onresize = function () {
   canvas.height = canvasH;
 };
 
+const scoreNum = document.querySelector('#scoreNum');
+
 //Health and Mana Bars
 let health = 100;
 let mana = 100;
@@ -197,7 +199,9 @@ class Sasteroid {
     this.w = w;
     this.h = h;
     this.img = img;
+    // this.hit = hit;
     this.velocity = velocity;
+    // this.size = size;
   }
   draw() {
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
@@ -235,9 +239,11 @@ function spawnSasteroids() {
       x = Math.random() * canvas.width;
       y = Math.random() < 0.5 ? 0 - 100 : canvas.height + 100;
     }
-    const w = 100;
+    const w = 200;
     const h = 100;
+    // const hit = 0;
     const img = astSm;
+    // const size = 1;
     //SM-Asteroid 5
     //canvas.height/width is replaced with the destination when you want to change
     //Once falcon is figured out would go here
@@ -287,8 +293,8 @@ class Laser {
   // For each frame set x / y coordinate for each laser
   update() {
     this.draw();
-    this.x = this.x + this.velocity.x;
-    this.y = this.y + this.velocity.y;
+    this.x = this.x + this.velocity.x*2;
+    this.y = this.y + this.velocity.y*2;
   }
 }
 
@@ -324,7 +330,7 @@ addEventListener("click", (event) => {
 //   let centerOfShipX = falcon.x + 52;
 //     let centerOfShipY = falcon.y + 70;
   lasers.push(
-    new Laser(falcon.x + 52, falcon.y + 70, 5, "orange", velocity)
+    new Laser(falcon.x + 52, falcon.y + 70, 5, `hsl(${Math.random() * 360}, 50%, 50%)`, velocity)
   );
 });
 
@@ -353,6 +359,7 @@ let gameOver = new Audio("../sounds/gameOver.mp3");
 let gameStart = new Audio("../sounds/gameStart.mp3");
 let gunSound = new Audio("../sounds/GunSound.mp3");
 
+
 // ENDGAME
 function endGame() {
   $("#canvasArea").hide();
@@ -362,6 +369,7 @@ function endGame() {
 
 function animate() {
   requestAnimationFrame(animate);
+  context.fillStyle = 'rgba(0, 0, 0, 0.1)'
   context.clearRect(0, 0, canvas.width, canvas.height);
 
 
@@ -370,9 +378,20 @@ function animate() {
 
       //Laser Weapon 7
   //Calls laser update funtion for every active laser
-  lasers.forEach((laser) => {
+  lasers.forEach((laser, index) => {
     laser.update();
-  });
+
+    //Remove projectile off screen 
+    if (laser.x - laser.radius < 0 ||
+      laser.x - laser.radius > canvas.width ||
+      laser.y + laser.radius < 0 ||
+      laser.y - laser.radius > canvas.height
+      ) {
+      setTimeout(() => {
+        lasers.splice(index, 1)
+        }, 0)
+      }
+    });
 
   ///SM-Asteroid 5
   //calls the asteroid update function for every asteroid
@@ -381,8 +400,6 @@ function animate() {
   
 
     lasers.forEach((laser) => {
-// console.log(laser)
-// console.log(sasteroid)
       laser.w = laser.radius*2
       laser.h = laser.radius*2
      detectCollision(laser, sasteroid)
@@ -396,14 +413,24 @@ function detectCollision(rect1, rect2) {
     rect1.x + rect1.w > rect2.x &&
     rect1.y < rect2.y + rect2.h &&
     rect1.y + rect1.h > rect2.y) {
-
-      console.log("Collissioooooon")
+      // sasteroids.indexOf(rect2).hit += 1
+      // if (sasteroid.h && sasteroid.w > 5) {
+      //   sasteroid.h && sasteroid.w / 2
+      //   setTimeout(() => {
+      //     lasers.splice(lasers.indexOf(rect1),1)
+      //     }, 0)
+      // } else {
+      //   console.log(sasteroids.indexOf(rect2))
+      // if (sasteroids.indexOf(rect2).size == 1 && sasteroids.indexOf(rect2).hit > 0)
+      {
+      setTimeout(() => {
       lasers.splice(lasers.indexOf(rect1),1)
       sasteroids.splice(sasteroids.indexOf(rect2),1)
-
-
+      score += 100
+      scoreNum.innerHTML = score
+      }, 0)
+    }
+    }
  }
- 
-}
 
 animate();
