@@ -1,7 +1,7 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
-//>>>> Global variables for spinning ship
+//>>> Global variables for spinning ship
 let gMouseX = 0;
 let gMouseY = 0;
 let gShipAngleInRads = 0;
@@ -10,19 +10,17 @@ let centerOfShipY = 0;
 let actualMouseX = 0;
 let actualMouseY = 0;
 
-//>>>>>>>>>> CHECKS FOR LOCATION OF MOUSE <<<<<<<<
+//>>> Mouse Locator
 document.addEventListener("mousemove", (e) => {
   gMouseX = e.clientX;
   gMouseY = e.clientY;
 });
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SCORE/GAME CONTROL/INTERFACE
+//***** INTERFACE
 
-//>>>Makes cursor a crosshair when on canvas
 document.getElementById("canvas").style.cursor =
   "url('../images/crosshair.cur'), auto";
 
-//Juan updates
 let canvasW = window.innerWidth;
 let canvasH = window.innerHeight;
 
@@ -35,28 +33,25 @@ window.onresize = function () {
 };
 
 const scoreNum = document.querySelector("#scoreNum");
-// const health = document.querySelector("#health-points");
 
-//Health and Mana Bars
-let health = 5;
+//>>> Health and Mana Bars
+let health = 100;
 let mana = 100;
 
-let healthPct = `${health}%`;
-let manaPct = `${mana}%`;
+document.getElementById("health-points").innerHTML = `${health}%`;
+document.getElementById("mana-points").innerHTML = `${mana}%`;
 
-document.getElementById("health-points").innerHTML = healthPct;
-document.getElementById("mana-points").innerHTML = manaPct;
+document.getElementById("health-fill").style.width = `${health}%`;
+document.getElementById("mana-fill").style.width = `${mana}%`;
 
-document.getElementById("mana-fill").style.width = manaPct;
-
-//Score and Level Counters
+//>>> Score and Level Counters
 score = 000;
 level = 1;
 
 document.getElementById("scoreNum").innerHTML = score;
 document.getElementById("levelNum").innerHTML = level;
 
-//Buttons
+//>>> Buttons
 function startGame() {
   let startScreen = document.getElementById("start-screen");
   if (startScreen.style.display === "none") {
@@ -64,19 +59,22 @@ function startGame() {
   } else {
     startScreen.style.display = "none";
   }
-} //Should initiate animation
+}
 
 function pause() {
   let startScreen = document.getElementById("start-screen");
-  if (startScreen.style.display === "none") {
+  if (startScreen.style.display = "none") {
     startScreen.style.display = "flex";
   } else {
     startScreen.style.display = "none";
   }
-} //Should halt animation
+}
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SPACESHIP
-// Ship Image imported
+function replay() {
+  window.location.reload()
+}
+
+//***** SPACESHIP
 const shipImg = new Image();
 shipImg.src = "../images/falconXSpaceship.png";
 
@@ -184,6 +182,8 @@ class Sasteroid {
 
   draw() {
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    // context.shadowBlur = 15;
+    // context.shadowColor = "red";
   }
 
   update() {
@@ -212,7 +212,6 @@ function shipAstCollision(ship, ast) {
     console.log(health);
     document.querySelector("#health-points").innerHTML = `${health}%`;
     document.querySelector("#health-fill").style.width = `${health}%`;
-    // document.getElementById("health-fill").style.width = healthPct;
     if (health >= 70 && health <= 100) {
       document.getElementById("health-fill").style.backgroundColor = "green";
     } else if (health >= 30 && health < 70) {
@@ -309,8 +308,6 @@ function detectCollision(rect1, rect2) {
     }
   }
 
-
-
   const lasers = [];
 
   addEventListener("click", (event) => {
@@ -368,9 +365,8 @@ function detectCollision(rect1, rect2) {
     document.querySelector("#scoreNum").innerHTML = score;
     document.querySelector("#health-points").innerHTML = `${0}%`;
     cancelAnimationFrame(gameloop)
-    document.querySelector("#score").innerHTML = score;
-    document.querySelector("#gameover-screen").style.display = "block";
-
+    document.querySelector("#finalScore").innerHTML = score;
+    document.querySelector("#gameover-screen").style.display = "flex";
   }
 
   animationCycles = 0;

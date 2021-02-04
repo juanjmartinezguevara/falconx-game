@@ -136,11 +136,11 @@ h2 {
 
 #health-fill, #mana-fill {
     border-radius: 2vw;
-    /* width: 100%; */
     min-height: 1.45vw;
 }
 
 #health-fill {
+    background-color: green;
     text-align: left;
     width: 100%;
 }
