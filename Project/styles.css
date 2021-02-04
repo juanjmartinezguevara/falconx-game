@@ -67,7 +67,7 @@ body, html {
     border: none;
     align-self: flex-end;
     font-size: 2.5vw;
-    display: none;
+    /* display: none; */
 }
 
 canvas {
