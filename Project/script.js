@@ -372,7 +372,6 @@ let centerShipY = falcon.y + 70
     }
   }
 
-  document.querySelector("#buttonSound").onclick = play;
 
   document.querySelector("#sound-btn").onclick = play;
 
