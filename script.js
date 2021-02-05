@@ -60,15 +60,31 @@ function startGame() {
     startScreen.style.display = "none";
   }
   play(bgMusic)
+  cancelAnimationFrame(gameloop)
+  animate()
 }
+
+
+let pausedSound = false
+let paused = false
+
+
+  if (pausedSound===false) {
+    let pausedSound = true
+  } else { let pausedSound = false}
 
 function pause() {
   let startScreen = document.getElementById("start-screen");
-  if ((startScreen.style.display = "none")) {
-    startScreen.style.display = "flex";
-  } else {
+
+  if (paused) {
     startScreen.style.display = "none";
+    cancelAnimationFrame(gameloop)
+    animate()
+  } else {
+    startScreen.style.display = "flex";
+    cancelAnimationFrame(gameloop)
   }
+     paused = !paused
 }
 
 function replay() {
@@ -102,23 +118,29 @@ class gShip {
       actualMouseX - centerOfShipX
     );
 
-    context.translate(centerOfShipX, centerOfShipY);
-    context.rotate(gShipAngleInRads + (90 * Math.PI) / 180);
-    context.translate(-centerOfShipX, -centerOfShipY);
-    context.drawImage(this.img, this.x, this.y, this.w, this.h);
-    context.setTransform(1, 0, 0, 1, 0, 0);
 
-    // if (shipHit > 0) {
 
-    //   context.beginPath();
-    //   context.arc(centerOfShipX, centerOfShipY, 50, 0, 2 * Math.PI);
-    //   let hitColor = "rgba(255, 165, 0, shipHit)"
-    //   context.resetTransform();
-    //   context.fillStyle = hitColor
-    //   context.fill();
-    //   shipHit -= 1;
-    //   console.log(hitColorcontext.fillstyle)
-    // }
+    if (shipHit > 0) {
+      context.save()
+      context.translate(centerOfShipX, centerOfShipY);
+      context.rotate(gShipAngleInRads + (90 * Math.PI) / 180);
+      context.translate(-centerOfShipX, -centerOfShipY);
+      context.shadowBlur = 20;
+      context.shadowColor = `yellow`;
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      shipHit -=.01
+      context.restore()
+
+    } else {
+      context.translate(centerOfShipX, centerOfShipY);
+      context.rotate(gShipAngleInRads + (90 * Math.PI) / 180);
+      context.translate(-centerOfShipX, -centerOfShipY);
+      context.shadowBlur = 0;
+      context.shadowColor = ``
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+      context.setTransform(1, 0, 0, 1, 0, 0);
+    }
   }
 }
 
@@ -128,22 +150,22 @@ const falcon = new gShip(canvasW / 2 - 50, canvasH / 2 - 50, 100, 100, shipImg);
 //>>>>>This is the code that moves the ship
 window.onkeydown = function (e) {
   switch (e.key) {
-    case "ArrowLeft":
+    case "a":
       if (falcon.x >= 20) {
         falcon.x -= 10;
       }
       break;
-    case "ArrowRight":
+    case "d":
       if (falcon.x <= canvas.width - 100) {
         falcon.x += 10;
       }
       break;
-    case "ArrowUp":
+    case "w":
       if (falcon.y >= 1) {
         falcon.y -= 10;
       }
       break;
-    case "ArrowDown":
+    case "s":
       if (falcon.y <= canvas.height - 150) {
         falcon.y += 10;
       }
@@ -157,6 +179,7 @@ window.onkeydown = function (e) {
 };
 
 function nuclear() {
+  play(explosionAsteroid)
   sasteroids.map((sast) => (sast.w = sast.w * 0.5));
   sasteroids.map((sast) => (sast.h = sast.h * 0.5));
 
@@ -166,7 +189,25 @@ function nuclear() {
     }
   })
 
-  mana = mana - 50;
+  masteroids.map((sast) => (sast.w = sast.w * 0.5));
+  masteroids.map((sast) => (sast.h = sast.h * 0.5));
+
+  masteroids.forEach((thing) => {
+    if (thing.w < 30) {
+      masteroids.splice(masteroids.indexOf(thing), 1)
+    }
+  })
+
+  lasteroids.map((sast) => (sast.w = sast.w * 0.5));
+  lasteroids.map((sast) => (sast.h = sast.h * 0.5));
+
+  lasteroids.forEach((thing) => {
+    if (thing.w < 30) {
+      lasteroids.splice(lasteroids.indexOf(thing), 1)
+    }
+  })
+
+  mana = mana - 30;
   document.getElementById("mana-points").innerHTML = `${mana}%`;
   document.getElementById("mana-fill").style.width = `${mana}%`;
 }
@@ -217,7 +258,7 @@ function detectPowerUpCollision(rect1, rect2) {
   ) {
     powerUps.splice(powerUps.indexOf(rect2), 1);
     if (mana <= 90) {
-      mana += 10;
+      mana += 20;
     }
 
     document.getElementById("mana-points").innerHTML = `${mana}%`;
@@ -290,7 +331,16 @@ class Sasteroid {
   }
 
   draw() {
+    
+    if (this.w<100) {
+    context.save()
+    context.shadowBlur = 20;
+    context.shadowColor = `red`;
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    context.restore()
+    } else {
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    }
   }
 
   update() {
@@ -309,10 +359,10 @@ function shipAstCollision(ship, ast) {
     (ship.y + 52) + ship.h > ast.y
   ) {
     // console.log("SHIP Collision!");
-    play(explosionSpaceShip)
     sasteroids.splice(sasteroids.indexOf(ast), 1);
+    play(explosionSpaceShip)
     health -= 5;
-    shipHit = 100;
+    shipHit = 1;
 
     if (health <= 5) {
       endGame();
@@ -377,7 +427,16 @@ class Masteroid {
   }
 
   draw() {
-    context.drawImage(this.img, this.x, this.y, this.w, this.h);
+
+    if (this.w<125) {
+      context.save()
+      context.shadowBlur = 20;
+      context.shadowColor = `green`;
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+      context.restore()
+    } else {
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    }
   }
 
   update() {
@@ -394,10 +453,11 @@ function shipAstCollision2(ship, ast) {
     ship.y < ast.y + ast.h &&
     ship.y + ship.h > ast.y
   ) {
-    play(explosionSpaceShip)
     console.log("SHIP Collision!");
     masteroids.splice(masteroids.indexOf(ast), 1);
     health -= 10;
+    shipHit = 1;
+    play(explosionSpaceShip)
 
     if (health <= 0) {
       endGame()
@@ -462,7 +522,17 @@ class Lasteroid {
   }
 
   draw() {
-    context.drawImage(this.img, this.x, this.y, this.w, this.h);
+
+    if (this.w<125) {
+      context.save()
+      context.shadowBlur = 20;
+      context.shadowColor = `blue`;
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+      context.restore()
+     } else {
+        context.drawImage(this.img, this.x, this.y, this.w, this.h);
+      }
+    
   }
 
   update() {
@@ -479,12 +549,13 @@ function shipAstCollision3(ship, ast) {
     ship.y < ast.y + ast.h &&
     ship.y + ship.h > ast.y
   ) {
-    play(explosionSpaceShip)
     console.log("SHIP Collision!");
     lasteroids.splice(lasteroids.indexOf(ast), 1);
     health -= 15;
+    shipHit = 1;
+    play(explosionSpaceShip)
 
-    if (health <=5) {
+    if (health <= 0) {
       endGame()
     }
 
@@ -540,7 +611,7 @@ bullet.src = "./images/bullet.png";
 let bullet2 = new Image();
 bullet2.src = "./images/bullet2.png";
 
-let laserSpeed = 1.5;
+let laserSpeed = 3;
 ////Laser Weapon 1
 class Laser {
   constructor(x, y, radius, color, velocity) {
@@ -641,11 +712,11 @@ addEventListener("click", (event) => {
 
   let actualMouseClickX = event.clientX - canvasXY.x;
   let actualMouseClickY = event.clientY - canvasXY.y;
-  
-play(gunSound)
 
   let centerShipX = falcon.x + 52;
   let centerShipY = falcon.y + 70;
+
+play(gunSound)
 
   const angle = Math.atan2(
     actualMouseClickY - centerShipY,
@@ -669,10 +740,11 @@ play(gunSound)
 //*************SOUND*////////////////////  
 
 function play(audioName) {
-  if (audioName.paused) {
-    audioName.play();
-  } else {
+  if (pausedSound) {
     audioName.pause();
+    
+  } else {
+    audioName.play();
   }
 }
 
@@ -703,6 +775,7 @@ let gameloop;
 animationCycles = 0;
 
 function animate() {
+
   gameloop = requestAnimationFrame(animate);
   animationCycles += 1;
 
@@ -712,14 +785,14 @@ function animate() {
     asteroidSpawnRate = 750;
     asteroidSpawnRate2 = 7000;
     asteroidSpawnRate3 = 9000
-    laserSpeed = 2
+    laserSpeed = 5
   } else if (animationCycles > 7200) {
     level = 3;
     document.querySelector("#levelNum").innerHTML = level;
     asteroidSpawnRate = 500;
     asteroidSpawnRate2 = 3000;
     asteroidSpawnRate3 = 8000
-    laserSpeed = 3
+    laserSpeed = 7
   }
 
   context.fillStyle = "rgba(0, 0, 0, 0.1)";
@@ -805,4 +878,4 @@ function animate() {
   });
 }
 
-animate();
+//animate();
