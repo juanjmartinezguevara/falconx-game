@@ -38,7 +38,7 @@ const scoreNum = document.querySelector("#scoreNum");
 // const health = document.querySelector("#health-points");
 
 //Health and Mana Bars
-let health = 5;
+let health = 100;
 let mana = 100;
 
 let healthPct = `${health}%`;
@@ -253,6 +253,8 @@ function spawnSasteroids() {
 }
 
 spawnSasteroids();
+
+
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  LASERS
 

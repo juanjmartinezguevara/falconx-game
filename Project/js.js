@@ -34,7 +34,8 @@ window.onresize = function () {
   canvas.height = canvasH;
 };
 
-const scoreNum = document.querySelector('#scoreNum');
+const scoreNum = document.querySelector("#scoreNum");
+// const health = document.querySelector("#health-points");
 
 //Health and Mana Bars
 let health = 100;
@@ -45,15 +46,6 @@ let manaPct = `${mana}%`;
 
 document.getElementById("health-points").innerHTML = healthPct;
 document.getElementById("mana-points").innerHTML = manaPct;
-
-document.getElementById("health-fill").style.width = healthPct;
-if (health >= 70 && health <= 100) {
-  document.getElementById("health-fill").style.backgroundColor = "green";
-} else if (health >= 30 && health < 70) {
-  document.getElementById("health-fill").style.backgroundColor = "yellow";
-} else if (health >= 0 && health < 30) {
-  document.getElementById("health-fill").style.backgroundColor = "red";
-}
 
 document.getElementById("mana-fill").style.width = manaPct;
 
@@ -201,19 +193,40 @@ class Sasteroid {
   }
 }
 
-  //*** NEW: SHIP-ASTEROID COLLISION FUNCTION *** >>> KEEP <<<
-//   function shipAstCollision(ship, ast) {
-//     if (ship.x < ast.x + ast.w &&
-//         ship.x + ship.w > ast.x &&
-//         ship.y < ast.y + ast.h &&
-//         ship.y + ship.h > ast.y) {
-//             console.log('Collision!');
-//             sasteroids.splice(sasteroids.indexOf(rect2),1);
-//     }
-// }
+// *** NEW: SHIP-ASTEROID COLLISION FUNCTION *** >>> KEEP <<<
+function shipAstCollision(ship, ast) {
+  if (
+    ship.x < ast.x + ast.w &&
+    ship.x + ship.w > ast.x &&
+    ship.y < ast.y + ast.h &&
+    ship.y + ship.h > ast.y
+  ) {
+    console.log("SHIP Collision!");
+    sasteroids.splice(sasteroids.indexOf(ast), 1);
+    health -= 5;
+
+    if (health == 0) {
+      endGame()
+    }
+
+    console.log(health);
+    document.querySelector("#health-points").innerHTML = `${health}%`;
+    document.querySelector("#health-fill").style.width = `${health}%`;
+    // document.getElementById("health-fill").style.width = healthPct;
+    if (health >= 70 && health <= 100) {
+      document.getElementById("health-fill").style.backgroundColor = "green";
+    } else if (health >= 30 && health < 70) {
+      document.getElementById("health-fill").style.backgroundColor = "yellow";
+    } else if (health >= 0 && health < 30) {
+      document.getElementById("health-fill").style.backgroundColor = "red";
+    }
+  }
+}
 
 ///Asteroid 3
 const sasteroids = [];
+
+asteroidSpawnRate = 1000;
 
 function spawnSasteroids() {
   setInterval(() => {
@@ -236,10 +249,177 @@ function spawnSasteroids() {
       y: Math.sin(angle),
     };
     sasteroids.push(new Sasteroid(x, y, w, h, img, velocity));
-  }, 1000);
+  }, asteroidSpawnRate);
 }
 
 spawnSasteroids();
+//////////////////////////////////////////////
+////////////////////////////////////////////// Mas
+
+class Masteroid {
+    constructor(x, y, w, h, img, velocity) {
+      this.x = x;
+      this.y = y;
+      this.w = w;
+      this.h = h;
+      this.img = img;
+      // this.hit = hit;
+      this.velocity = velocity;
+      // this.size = size;
+    }
+  
+    draw() {
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    }
+  
+    update() {
+      this.draw();
+      this.x = this.x + this.velocity.x;
+      this.y = this.y + this.velocity.y;
+    }
+  }
+  
+  function shipAstCollision2(ship, ast) {
+    if (
+      ship.x < ast.x + ast.w &&
+      ship.x + ship.w > ast.x &&
+      ship.y < ast.y + ast.h &&
+      ship.y + ship.h > ast.y
+    ) {
+      console.log("SHIP Collision!");
+      masteroids.splice(masteroids.indexOf(ast), 1);
+      health -= 5;
+  
+      if (health == 0) {
+        endGame()
+      }
+  
+      console.log(health);
+      document.querySelector("#health-points").innerHTML = `${health}%`;
+      document.querySelector("#health-fill").style.width = `${health}%`;
+      // document.getElementById("health-fill").style.width = healthPct;
+      if (health >= 70 && health <= 100) {
+        document.getElementById("health-fill").style.backgroundColor = "green";
+      } else if (health >= 30 && health < 70) {
+        document.getElementById("health-fill").style.backgroundColor = "yellow";
+      } else if (health >= 0 && health < 30) {
+        document.getElementById("health-fill").style.backgroundColor = "red";
+      }
+    }
+  }
+  
+  const masteroids = [];
+
+  asteroidSpawnRate2 = 4000;
+  
+  function spawnMasteroids() {
+    setInterval(() => {
+      let x;
+      let y;
+      if (Math.random() < 0.5) {
+        x = Math.random() < 0.5 ? 0 - 100 : canvas.width + 100;
+        y = Math.random() * canvas.height;
+      } else {
+        x = Math.random() * canvas.width;
+        y = Math.random() < 0.5 ? 0 - 100 : canvas.height + 100;
+      }
+      const w = 125;
+      const h = 125;
+      // const hit = 0;
+      const img = astMed;
+      const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+      const velocity = {
+        x: Math.cos(angle),
+        y: Math.sin(angle),
+      };
+      masteroids.push(new Masteroid(x, y, w, h, img, velocity));
+    }, asteroidSpawnRate2);
+  }
+  
+  spawnMasteroids();
+//////////////////////////////////////////////
+////////////////////////////////////////////// Las
+
+class Lasteroid {
+    constructor(x, y, w, h, img, velocity) {
+      this.x = x;
+      this.y = y;
+      this.w = w;
+      this.h = h;
+      this.img = img;
+      // this.hit = hit;
+      this.velocity = velocity;
+      // this.size = size;
+    }
+  
+    draw() {
+      context.drawImage(this.img, this.x, this.y, this.w, this.h);
+    }
+  
+    update() {
+      this.draw();
+      this.x = this.x + this.velocity.x;
+      this.y = this.y + this.velocity.y;
+    }
+  }
+  
+  function shipAstCollision3(ship, ast) {
+    if (
+      ship.x < ast.x + ast.w &&
+      ship.x + ship.w > ast.x &&
+      ship.y < ast.y + ast.h &&
+      ship.y + ship.h > ast.y
+    ) {
+      console.log("SHIP Collision!");
+      lasteroids.splice(lasteroids.indexOf(ast), 1);
+      health -= 5;
+  
+      if (health == 0) {
+        endGame()
+      }
+  
+      console.log(health);
+      document.querySelector("#health-points").innerHTML = `${health}%`;
+      document.querySelector("#health-fill").style.width = `${health}%`;
+      // document.getElementById("health-fill").style.width = healthPct;
+      if (health >= 70 && health <= 100) {
+        document.getElementById("health-fill").style.backgroundColor = "green";
+      } else if (health >= 30 && health < 70) {
+        document.getElementById("health-fill").style.backgroundColor = "yellow";
+      } else if (health >= 0 && health < 30) {
+        document.getElementById("health-fill").style.backgroundColor = "red";
+      }
+    }
+  }
+  
+  const lasteroids = [];
+  asteroidSpawnRate3 = 8000;
+  
+  function spawnLasteroids() {
+    setInterval(() => {
+      let x;
+      let y;
+      if (Math.random() < 0.5) {
+        x = Math.random() < 0.5 ? 0 - 100 : canvas.width + 100;
+        y = Math.random() * canvas.height;
+      } else {
+        x = Math.random() * canvas.width;
+        y = Math.random() < 0.5 ? 0 - 100 : canvas.height + 100;
+      }
+      const w = 75;
+      const h = 75;
+      // const hit = 0;
+      const img = astLg;
+      const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+      const velocity = {
+        x: Math.cos(angle),
+        y: Math.sin(angle),
+      };
+      lasteroids.push(new Lasteroid(x, y, w, h, img, velocity));
+    }, asteroidSpawnRate3);
+  }
+  
+  spawnLasteroids(); 
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  LASERS
 
@@ -249,6 +429,7 @@ bullet.src = "../images/bullet.png";
 let bullet2 = new Image();
 bullet2.src = "../images/bullet2.png";
 
+let laserSpeed = 1.5
 ////Laser Weapon 1
 class Laser {
   constructor(x, y, radius, color, velocity) {
@@ -267,131 +448,234 @@ class Laser {
 
   update() {
     this.draw();
-    this.x = this.x + this.velocity.x * 1.5;
-    this.y = this.y + this.velocity.y * 1.5;
+    this.x = this.x + this.velocity.x * laserSpeed;
+    this.y = this.y + this.velocity.y * laserSpeed;
   }
 }
 
 function detectCollision(rect1, rect2) {
-  if (rect1.x < rect2.x + rect2.w &&
+  if (
+    rect1.x < rect2.x + rect2.w &&
     rect1.x + rect1.w > rect2.x &&
     rect1.y < rect2.y + rect2.h &&
     rect1.y + rect1.h > rect2.y) {
-      { 
       if (rect2.w > 50) {
-      rect2.w -= 50
-      rect2.h -= 50
-      lasers.splice(lasers.indexOf(rect1),1)
-      score += 50
-      scoreNum.innerHTML = score
+        rect2.w -= 50
+        rect2.h -= 50
+        lasers.splice(lasers.indexOf(rect1), 1)
+        score += 50
+        scoreNum.innerHTML = score
       } else {
-      setTimeout(() => {
-      lasers.splice(lasers.indexOf(rect1),1)
-      sasteroids.splice(sasteroids.indexOf(rect2),1)
-      score += 100
-      scoreNum.innerHTML = score
-      }, 0)
+        setTimeout(() => {
+          lasers.splice(lasers.indexOf(rect1), 1);
+          sasteroids.splice(sasteroids.indexOf(rect2), 1);
+          score += 100;
+          scoreNum.innerHTML = score;
+        }, 0);
+      }
     }
-    }
-    }
- }
-
-
-
-const lasers = [];
-
-addEventListener("click", (event) => {
-  let canvasXY = canvas.getBoundingClientRect();
-
-  let actualMouseClickX = event.clientX - canvasXY.x;
-  let actualMouseClickY = event.clientY - canvasXY.y;
-
-  // console.log(event.clientX, event.clientY, actualMouseClickX, actualMouseClickY)
-  const angle =
-    -0.15 +
-    Math.atan2(
-      actualMouseClickY - falcon.y + 70,
-      actualMouseClickX - falcon.x + 52
-    );
-
-  const velocity = {
-    x: Math.cos(angle),
-    y: Math.sin(angle),
-  };
-  lasers.push(
-    new Laser(falcon.x + 52, falcon.y + 70, 5, `hsl(${Math.random() * 360}, 50%, 50%)`, velocity)
-  );
-});
-
-//*************SOUND*////////////////////
-
-let audio = new Audio("../sounds/backgroundSound.mp3");
-function play() {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
   }
-}
 
-document.querySelector("#buttonSound").onclick = play;
+  function detectCollision2(rect1, rect2) {
+    if (
+      rect1.x < rect2.x + rect2.w &&
+      rect1.x + rect1.w > rect2.x &&
+      rect1.y < rect2.y + rect2.h &&
+      rect1.y + rect1.h > rect2.y) {
+        if (rect2.w > 50) {
+          rect2.w -= 50
+          rect2.h -= 50
+          lasers.splice(lasers.indexOf(rect1), 1)
+          score += 75
+          scoreNum.innerHTML = score
+        } else {
+          setTimeout(() => {
+            lasers.splice(lasers.indexOf(rect1), 1);
+            masteroids.splice(masteroids.indexOf(rect2), 1);
+            score += 150;
+            scoreNum.innerHTML = score;
+          }, 0);
+        }
+      }
+    }
 
-document.querySelector("#sound-btn").onclick = play;
+    function detectCollision3(rect1, rect2) {
+        if (
+          rect1.x < rect2.x + rect2.w &&
+          rect1.x + rect1.w > rect2.x &&
+          rect1.y < rect2.y + rect2.h &&
+          rect1.y + rect1.h > rect2.y) {
+            if (rect2.w > 50) {
+              rect2.w -= 50
+              rect2.h -= 50
+              lasers.splice(lasers.indexOf(rect1), 1)
+              score += 100
+              scoreNum.innerHTML = score
+            } else {
+              setTimeout(() => {
+                lasers.splice(lasers.indexOf(rect1), 1);
+                lasteroids.splice(lasteroids.indexOf(rect2), 1);
+                score += 250;
+                scoreNum.innerHTML = score;
+              }, 0);
+            }
+          }
+        }
 
-let explosionAsteroid = new Audio("../sounds/Explosion+3.mp3");
-let explosionSapaceShip = new Audio("../sounds/Explosion+4.mp3");
-let gameOver = new Audio("../sounds/gameOver.mp3");
-let gameStart = new Audio("../sounds/gameStart.mp3");
-let gunSound = new Audio("../sounds/GunSound.mp3");
+
+  const lasers = [];
+
+  addEventListener("click", (event) => {
+    let canvasXY = canvas.getBoundingClientRect();
+
+    let actualMouseClickX = event.clientX - canvasXY.x;
+    let actualMouseClickY = event.clientY - canvasXY.y;
+
+    // console.log(event.clientX, event.clientY, actualMouseClickX, actualMouseClickY)
+    const angle =
+      -0.15 +
+      Math.atan2(
+        actualMouseClickY - falcon.y + 70,
+        actualMouseClickX - falcon.x + 52
+      );
+
+    const velocity = {
+      x: Math.cos(angle),
+      y: Math.sin(angle),
+    };
+    lasers.push(
+      new Laser(
+        falcon.x + 52,
+        falcon.y + 70,
+        5,
+        `hsl(${Math.random() * 360}, 50%, 50%)`,
+        velocity
+      )
+    );
+  });
+
+  //*************SOUND*////////////////////
+
+  let audio = new Audio("../sounds/backgroundSound.mp3");
+  function play() {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }
+
+  document.querySelector("#buttonSound").onclick = play;
+
+  document.querySelector("#sound-btn").onclick = play;
+
+  let explosionAsteroid = new Audio("../sounds/Explosion+3.mp3");
+  let explosionSapaceShip = new Audio("../sounds/Explosion+4.mp3");
+  let gameOver = new Audio("../sounds/gameOver.mp3");
+  let gameStart = new Audio("../sounds/gameStart.mp3");
+  let gunSound = new Audio("../sounds/GunSound.mp3");
+
+  // ENDGAME
+  function endGame() {
+    document.querySelector("#scoreNum").innerHTML = score;
+    document.querySelector("#health-points").innerHTML = `${0}%`;
+    cancelAnimationFrame(gameloop)
+    document.querySelector("#score").innerHTML = score;
+    document.querySelector("#gameover-screen").style.display = "block";
+
+  }
+
+  animationCycles = 0;
+
+  let gameloop;
+
+  function animate() {
+    gameloop = requestAnimationFrame(animate);
+    animationCycles += 1;
+
+    if (animationCycles > 3600 && animationCycles < 7200) {
+      level = 2;
+      document.querySelector("#levelNum").innerHTML = level;
+      asteroidSpawnRate = 750;
+      asteroidSpawnRate2 = 7000;
+      asteroidSpawnRate3 = 9000
+      laserSpeed = 2
+    } else if (animationCycles > 7200) {
+      level = 3;
+      document.querySelector("#levelNum").innerHTML = level;
+      asteroidSpawnRate = 500;
+      asteroidSpawnRate2 = 3000;
+      asteroidSpawnRate3 = 8000
+      laserSpeed = 3
+    }
 
 
-// ENDGAME
-function endGame() {
-  $("#canvasArea").hide();
-  $("#score").text(score);
-  $(".FinishScreen").show();
-}
+    context.fillStyle = "rgba(0, 0, 0, 0.1)";
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-function animate() {
-  requestAnimationFrame(animate);
-  context.fillStyle = 'rgba(0, 0, 0, 0.1)'
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  falcon.draw();
-
-  lasers.forEach((laser) => {
-    laser.update();
-
-    // //Remove projectile off screen 
-    // if (laser.x - laser.radius < 0 ||
-    //   laser.x - laser.radius > canvas.width ||
-    //   laser.y + laser.radius < 0 ||
-    //   laser.y - laser.radius > canvas.height
-    //   ) {
-    //   setTimeout(() => {
-    //     lasers.splice(index, 1)
-    //     }, 0)
-    //   }
-    });
-
-  //*** NEW: SHIP-ASTEROID COLLISION ANIMATION *** >>> KEEP <<<
-//   sasteroids.forEach((sasteroid) => {
-//     sasteroid.update();
-//     shipAstCollision(falcon, sasteroid)
-// })
-
-  sasteroids.forEach((sasteroid) => {
-    sasteroid.update();
+    falcon.draw();
 
     lasers.forEach((laser) => {
-      laser.w = laser.radius*2
-      laser.h = laser.radius*2
-     detectCollision(laser, sasteroid)
+      laser.update();
+
+      //Remove projectile off screen
+      // if (
+      //   laser.x - laser.radius < 0 ||
+      //   laser.x - laser.radius > canvas.width ||
+      //   laser.y + laser.radius < 0 ||
+      //   laser.y - laser.radius > canvas.height
+      // ) {
+      //   setTimeout(() => {
+      //     lasers.splice(index, 1);
+      //   }, 0);
+      // }
+    });
+
+    //*** NEW: SHIP-ASTEROID COLLISION ANIMATION *** >>> KEEP <<<
+    sasteroids.forEach((sasteroid) => {
+      //sasteroid.update();
+      shipAstCollision(falcon, sasteroid);
+    });
+
+    sasteroids.forEach((sasteroid) => {
+      sasteroid.update();
+
+      lasers.forEach((laser) => {
+        laser.w = laser.radius * 2;
+        laser.h = laser.radius * 2;
+        detectCollision(laser, sasteroid);
+    });
+ /////////////////////////////////////masteroids
+    masteroids.forEach((masteroid) => {
+        //sasteroid.update();
+        shipAstCollision2(falcon, masteroid);
       });
-      })
-    }
 
+    masteroids.forEach((masteroid) => {
+        masteroid.update();
+    
+        lasers.forEach((laser) => {
+            laser.w = laser.radius * 2;
+            laser.h = laser.radius * 2;
+            detectCollision2(laser, masteroid);
+        });
+//////////////////////////////////////largeroids
+lasteroids.forEach((lasteroid) => {
+    //sasteroid.update();
+    shipAstCollision3(falcon, lasteroid);
+  });
 
+lasteroids.forEach((lasteroid) => {
+    lasteroid.update();
 
+    lasers.forEach((laser) => {
+        laser.w = laser.radius * 2;
+        laser.h = laser.radius * 2;
+        detectCollision3(laser, lasteroid);
+    });
+    })
+})
+    });
+  }
 
-animate();
+  animate();
