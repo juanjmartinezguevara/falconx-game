@@ -226,7 +226,7 @@ function spawnSasteroids() {
       x = Math.random() * canvas.width;
       y = Math.random() < 0.5 ? 0 - 100 : canvas.height + 100;
     }
-    const w = 200;
+    const w = 100;
     const h = 100;
     // const hit = 0;
     const img = astSm;
@@ -277,7 +277,14 @@ function detectCollision(rect1, rect2) {
     rect1.x + rect1.w > rect2.x &&
     rect1.y < rect2.y + rect2.h &&
     rect1.y + rect1.h > rect2.y) {
-      {
+      { 
+      if (rect2.w > 50) {
+      rect2.w -= 50
+      rect2.h -= 50
+      lasers.splice(lasers.indexOf(rect1),1)
+      score += 50
+      scoreNum.innerHTML = score
+      } else {
       setTimeout(() => {
       lasers.splice(lasers.indexOf(rect1),1)
       sasteroids.splice(sasteroids.indexOf(rect2),1)
@@ -286,7 +293,10 @@ function detectCollision(rect1, rect2) {
       }, 0)
     }
     }
+    }
  }
+
+
 
 const lasers = [];
 
@@ -352,16 +362,16 @@ function animate() {
   lasers.forEach((laser) => {
     laser.update();
 
-    //Remove projectile off screen 
-    if (laser.x - laser.radius < 0 ||
-      laser.x - laser.radius > canvas.width ||
-      laser.y + laser.radius < 0 ||
-      laser.y - laser.radius > canvas.height
-      ) {
-      setTimeout(() => {
-        lasers.splice(index, 1)
-        }, 0)
-      }
+    // //Remove projectile off screen 
+    // if (laser.x - laser.radius < 0 ||
+    //   laser.x - laser.radius > canvas.width ||
+    //   laser.y + laser.radius < 0 ||
+    //   laser.y - laser.radius > canvas.height
+    //   ) {
+    //   setTimeout(() => {
+    //     lasers.splice(index, 1)
+    //     }, 0)
+    //   }
     });
 
   //*** NEW: SHIP-ASTEROID COLLISION ANIMATION *** >>> KEEP <<<
