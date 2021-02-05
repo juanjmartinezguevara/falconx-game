@@ -10,6 +10,8 @@ let centerOfShipY = 0;
 let actualMouseX = 0;
 let actualMouseY = 0;
 
+let shipHit = 0;
+
 //>>> Mouse Locator
 document.addEventListener("mousemove", (e) => {
   gMouseX = e.clientX;
@@ -62,7 +64,7 @@ function startGame() {
 
 function pause() {
   let startScreen = document.getElementById("start-screen");
-  if (startScreen.style.display = "none") {
+  if ((startScreen.style.display = "none")) {
     startScreen.style.display = "flex";
   } else {
     startScreen.style.display = "none";
@@ -70,7 +72,7 @@ function pause() {
 }
 
 function replay() {
-  window.location.reload()
+  window.location.reload();
 }
 
 //***** SPACESHIP
@@ -106,25 +108,17 @@ class gShip {
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
     context.setTransform(1, 0, 0, 1, 0, 0);
 
-    if (shipHit > 0) {
-      console.log(shipHit, centerOfShipX, centerOfShipY)
-      
-      context.beginPath();
-      context.arc(centerOfShipX, centerOfShipY, 50, 0, 2 * Math.PI);
-      context.fillStyle = `rgb(255, 165, 0, 1)`;
-      context.fill();
-      
-      context.stroke();
-      shipHit -= .01;
-    }
+    // if (shipHit > 0) {
 
-
-    // //>>>>>> Draw line from ship to mouse for clarification of points while coding
-    // context.beginPath();
-    // context.moveTo(centerOfShipX, centerOfShipY);
-    // context.lineTo(actualMouseX, actualMouseY);
-    // context.lineWidth = 5;
-    // context.stroke();
+    //   context.beginPath();
+    //   context.arc(centerOfShipX, centerOfShipY, 50, 0, 2 * Math.PI);
+    //   let hitColor = "rgba(255, 165, 0, shipHit)"
+    //   context.resetTransform();
+    //   context.fillStyle = hitColor
+    //   context.fill();
+    //   shipHit -= 1;
+    //   console.log(hitColorcontext.fillstyle)
+    // }
   }
 }
 
@@ -154,8 +148,28 @@ window.onkeydown = function (e) {
         falcon.y += 10;
       }
       break;
+    case " ":
+      if (mana > 25) {
+        nuclear();
+      }
+      break;
   }
 };
+
+function nuclear() {
+  sasteroids.map((sast) => (sast.w = sast.w * 0.5));
+  sasteroids.map((sast) => (sast.h = sast.h * 0.5));
+
+  sasteroids.forEach((thing) => {
+    if (thing.w < 30) {
+      sasteroids.splice(sasteroids.indexOf(thing),1)
+    }
+  })
+
+  mana = mana - 50;
+  document.getElementById("mana-points").innerHTML = `${mana}%`;
+  document.getElementById("mana-fill").style.width = `${mana}%`;
+}
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Collisions
 let explosion = new Image();
@@ -165,8 +179,91 @@ let explosion2 = new Image();
 explosion2.src = "../images/explosion2.png";
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Power Up
-let powerUp = new Image();
-powerUp.src = "../images/powerUp.png";
+let powerUpImg = new Image();
+powerUpImg.src = "../images/powerUp.png";
+
+class powerUp {
+  constructor(x, y, w, h, img, velocity) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.img = img;
+    // this.hit = hit;
+    this.velocity = velocity;
+    // this.size = size;
+  }
+
+  draw() {
+    context.drawImage(this.img, this.x, this.y, this.w, this.h);
+  }
+  // context.shadowBlur = 15;
+  // context.shadowColor = "red";
+
+  update() {
+    this.draw();
+    this.x = this.x + this.velocity.x;
+    this.y = this.y + this.velocity.y;
+  }
+}
+
+//>>>>>>> POWER UP AND LASER DETECTION
+function detectPowerUpCollision(rect1, rect2) {
+  if (
+    rect1.x < rect2.x + rect2.w &&
+    rect1.x + rect1.w > rect2.x &&
+    rect1.y < rect2.y + rect2.h &&
+    rect1.y + rect1.h > rect2.y
+  ) {
+    powerUps.splice(powerUps.indexOf(rect2), 1);
+    if (mana <=90) {
+       mana += 10;
+    }
+   
+    document.getElementById("mana-points").innerHTML = `${mana}%`;
+    document.getElementById("mana-fill").style.width = `${mana}%`;
+  }
+}
+
+//>>>>>>> POWER UP DISTANCE FROM SHIP DETECTOR - Makes Power Ups dissappear before they get too close to the ship.
+function detectShipToPowerUpDistance (ship, pUp) {
+  let sx = (ship.x+52)-pUp.x;
+  let sy = (ship.y+70)-pUp.y;
+  let pUpDist = Math.sqrt(sx*sx+sy*sy);
+  if (pUpDist < 200) {
+    powerUps.splice(powerUps.indexOf(pUp), 1);
+  }
+}
+
+const powerUps = [];
+
+powerUpSpawnRate = 5000;
+
+function spawnPowerUps() {
+  setInterval(() => {
+    let x;
+    let y;
+    if (Math.random() < 0.5) {
+      x = Math.random() < 0.5 ? 0 - 100 : canvas.width + 100;
+      y = Math.random() * canvas.height;
+    } else {
+      x = Math.random() * canvas.width;
+      y = Math.random() < 0.5 ? 0 - 100 : canvas.height + 100;
+    }
+    const w = 25;
+    const h = 25;
+    const img = powerUpImg;
+    const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+    const velocity = {
+      x: Math.cos(angle),
+      y: Math.sin(angle),
+    };
+    console.log("SPAWN POWER UP");
+    powerUps.push(new powerUp(x, y, w, h, img, velocity));
+  }, powerUpSpawnRate);
+}
+
+spawnPowerUps();
 
 ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ASTEROIDS
 // Aseroid Images Imported
@@ -203,25 +300,23 @@ class Sasteroid {
   }
 }
 
-let shipHit = 0
 // *** NEW: SHIP-ASTEROID COLLISION FUNCTION *** >>> KEEP <<<
 function shipAstCollision(ship, ast) {
   if (
-    ship.x < ast.x + ast.w &&
-    ship.x + ship.w > ast.x &&
-    ship.y < ast.y + ast.h &&
-    ship.y + ship.h > ast.y
+    (ship.x +70) < ast.x + ast.w &&
+    (ship.x +70) + ship.w > ast.x &&
+    (ship.y +52) < ast.y + ast.h &&
+    (ship.y +52) + ship.h > ast.y
   ) {
     // console.log("SHIP Collision!");
     sasteroids.splice(sasteroids.indexOf(ast), 1);
     health -= 5;
-    shipHit = 1;
+    shipHit = 100;
 
     if (health == 0) {
-      endGame()
+      endGame();
     }
 
-    console.log(health);
     document.querySelector("#health-points").innerHTML = `${health}%`;
     document.querySelector("#health-fill").style.width = `${health}%`;
     if (health >= 70 && health <= 100) {
@@ -265,8 +360,6 @@ function spawnSasteroids() {
 
 spawnSasteroids();
 
-
-
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  LASERS
 
 let bullet = new Image();
@@ -275,7 +368,7 @@ bullet.src = "../images/bullet.png";
 let bullet2 = new Image();
 bullet2.src = "../images/bullet2.png";
 
-let laserSpeed = 1.5
+let laserSpeed = 1.5;
 ////Laser Weapon 1
 class Laser {
   constructor(x, y, radius, color, velocity) {
@@ -304,59 +397,54 @@ function detectCollision(rect1, rect2) {
     rect1.x < rect2.x + rect2.w &&
     rect1.x + rect1.w > rect2.x &&
     rect1.y < rect2.y + rect2.h &&
-    rect1.y + rect1.h > rect2.y) {
-      if (rect2.w > 50) {
-        rect2.w -= 50
-        rect2.h -= 50
-        lasers.splice(lasers.indexOf(rect1), 1)
-        score += 50
-        scoreNum.innerHTML = score
-      } else {
-        setTimeout(() => {
-          lasers.splice(lasers.indexOf(rect1), 1);
-          sasteroids.splice(sasteroids.indexOf(rect2), 1);
-          score += 100;
-          scoreNum.innerHTML = score;
-        }, 0);
-      }
+    rect1.y + rect1.h > rect2.y
+  ) {
+    if (rect2.w > 50) {
+      rect2.w -= 50;
+      rect2.h -= 50;
+      lasers.splice(lasers.indexOf(rect1), 1);
+      score += 50;
+      scoreNum.innerHTML = score;
+    } else {
+      setTimeout(() => {
+        lasers.splice(lasers.indexOf(rect1), 1);
+        sasteroids.splice(sasteroids.indexOf(rect2), 1);
+        score += 100;
+        scoreNum.innerHTML = score;
+      }, 0);
     }
   }
+}
 
-  const lasers = [];
+const lasers = [];
 
-  addEventListener("click", (event) => {
-    let canvasXY = canvas.getBoundingClientRect();
+addEventListener("click", (event) => {
+  let canvasXY = canvas.getBoundingClientRect();
 
-    let actualMouseClickX = event.clientX - canvasXY.x;
-    let actualMouseClickY = event.clientY- canvasXY.y;
+  let actualMouseClickX = event.clientX - canvasXY.x;
+  let actualMouseClickY = event.clientY - canvasXY.y;
 
-let centerShipX = falcon.x + 52
-let centerShipY = falcon.y + 70
+  let centerShipX = falcon.x + 52;
+  let centerShipY = falcon.y + 70;
 
-
-    const angle =
-      Math.atan2(
-        actualMouseClickY - centerShipY,
-        actualMouseClickX - centerShipX
-      );
-
-      console.log( normalize(actualMouseClickX - falcon.x, 1, -1))
-    const velocity = {
-      x: Math.cos(angle),
-      y: Math.sin(angle),
-    };
-    lasers.push(
-      new Laser(
-        falcon.x + 52,
-        falcon.y + 70,
-        5,
-        `hsl(${Math.random() * 360}, 50%, 50%)`,
-        velocity
-      )
-    );
-  });
-
-  function normalize(val, max, min) { return (val - min) / (max - min); }
+  const angle = Math.atan2(
+    actualMouseClickY - centerShipY,
+    actualMouseClickX - centerShipX
+  );
+  const velocity = {
+    x: Math.cos(angle),
+    y: Math.sin(angle),
+  };
+  lasers.push(
+    new Laser(
+      falcon.x + 52,
+      falcon.y + 70,
+      5,
+      `hsl(${Math.random() * 360}, 50%, 50%)`,
+      velocity
+    )
+  );
+});
 
   //*************SOUND*////////////////////  
   
@@ -391,62 +479,75 @@ let centerShipY = falcon.y + 70
     document.querySelector("#gameover-screen").style.display = "flex";
   }
 
+  let gameloop;
   animationCycles = 0;
 
-  let gameloop;
+function animate() {
+  gameloop = requestAnimationFrame(animate);
+  animationCycles += 1;
 
-  function animate() {
-    gameloop = requestAnimationFrame(animate);
-    animationCycles += 1;
-
-    if (animationCycles > 2000 && animationCycles < 4000) {
-      level = 2;
-      document.querySelector("#levelNum").innerHTML = level;
-      asteroidSpawnRate = 750;
-      laserSpeed = 2
-    } else if (animationCycles > 4001) {
-      level = 3;
-      document.querySelector("#levelNum").innerHTML = level;
-      asteroidSpawnRate = 500;
-      laserSpeed = 3
-    }
-
-
-    context.fillStyle = "rgba(0, 0, 0, 0.1)";
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    falcon.draw();
-
-    lasers.forEach((laser) => {
-      laser.update();
-
-      //Remove projectile off screen
-      // if (
-      //   laser.x - laser.radius < 0 ||
-      //   laser.x - laser.radius > canvas.width ||
-      //   laser.y + laser.radius < 0 ||
-      //   laser.y - laser.radius > canvas.height
-      // ) {
-      //   setTimeout(() => {
-      //     lasers.splice(index, 1);
-      //   }, 0);
-      // }
-    });
-
-    //*** NEW: SHIP-ASTEROID COLLISION ANIMATION *** >>> KEEP <<<
-    sasteroids.forEach((sasteroid) => {
-      shipAstCollision(falcon, sasteroid);
-    });
-
-    sasteroids.forEach((sasteroid) => {
-      sasteroid.update();
-
-      lasers.forEach((laser) => {
-        laser.w = laser.radius * 2;
-        laser.h = laser.radius * 2;
-        detectCollision(laser, sasteroid);
-      });
-    });
+  if (animationCycles > 2000 && animationCycles < 4000) {
+    level = 2;
+    document.querySelector("#levelNum").innerHTML = level;
+    asteroidSpawnRate = 750;
+    laserSpeed = 2;
+  } else if (animationCycles > 4001) {
+    level = 3;
+    document.querySelector("#levelNum").innerHTML = level;
+    asteroidSpawnRate = 500;
+    laserSpeed = 3;
   }
 
-  animate();
+  context.fillStyle = "rgba(0, 0, 0, 0.1)";
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  lasers.forEach((laser) => {
+    laser.update();
+
+    //Remove projectile off screen
+    // if (
+    //   laser.x - laser.radius < 0 ||
+    //   laser.x - laser.radius > canvas.width ||
+    //   laser.y + laser.radius < 0 ||
+    //   laser.y - laser.radius > canvas.height
+    // ) {
+    //   setTimeout(() => {
+    //     lasers.splice(index, 1);
+    //   }, 0);
+    // }
+  });
+
+  powerUps.forEach((powerUp) => {
+    powerUp.update();
+
+    lasers.forEach((laser) => {
+      laser.w = laser.radius * 2;
+      laser.h = laser.radius * 2;
+      detectPowerUpCollision(laser, powerUp);
+    });
+  });
+
+  powerUps.forEach((powerUp) => {
+    detectShipToPowerUpDistance(falcon, powerUp)
+  })
+
+  falcon.draw();
+
+  //*** NEW: SHIP-ASTEROID COLLISION ANIMATION *** >>> KEEP <<<
+  sasteroids.forEach((sasteroid) => {
+
+    shipAstCollision(falcon, sasteroid);
+  });
+
+  sasteroids.forEach((sasteroid) => {
+    sasteroid.update();
+
+    lasers.forEach((laser) => {
+      laser.w = laser.radius * 2;
+      laser.h = laser.radius * 2;
+      detectCollision(laser, sasteroid);
+    });
+  });
+}
+
+animate();
