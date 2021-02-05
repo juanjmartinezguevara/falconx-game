@@ -17,9 +17,7 @@ document.addEventListener("mousemove", (e) => {
 });
 
 //***** INTERFACE
-
-document.getElementById("canvas").style.cursor =
-  "url('../images/crosshair.cur'), auto";
+document.getElementById("canvas").style.cursor = "url('../images/crosshair.cur'), auto";
 
 let canvasW = window.innerWidth;
 let canvasH = window.innerHeight;
@@ -59,6 +57,7 @@ function startGame() {
   } else {
     startScreen.style.display = "none";
   }
+  play(bgMusic)
 }
 
 function pause() {
@@ -195,8 +194,6 @@ class Sasteroid {
 
   draw() {
     context.drawImage(this.img, this.x, this.y, this.w, this.h);
-    // context.shadowBlur = 15;
-    // context.shadowColor = "red";
   }
 
   update() {
@@ -361,28 +358,32 @@ let centerShipY = falcon.y + 70
 
   function normalize(val, max, min) { return (val - min) / (max - min); }
 
-  //*************SOUND*////////////////////
-
-  let audio = new Audio("../sounds/backgroundSound.mp3");
-  function play() {
-    if (audio.paused) {
-      audio.play();
+  //*************SOUND*////////////////////  
+  
+  function play(audioName) {
+    if (audioName.paused) {
+      audioName.play();
     } else {
-      audio.pause();
+      audioName.pause();
     }
   }
 
-
-  document.querySelector("#sound-btn").onclick = play;
+  // let bgMusic = new Audio("../sounds/backgroundSound.mp3");
+  let bgMusic = new Audio("../sounds/gameplayAndromedaJourney.mp3");
+  
+  // let gameOver = new Audio("../sounds/gameOver.mp3");
+  let gameOver = new Audio("../sounds/sta");
 
   let explosionAsteroid = new Audio("../sounds/Explosion+3.mp3");
   let explosionSapaceShip = new Audio("../sounds/Explosion+4.mp3");
-  let gameOver = new Audio("../sounds/gameOver.mp3");
   let gameStart = new Audio("../sounds/gameStart.mp3");
   let gunSound = new Audio("../sounds/GunSound.mp3");
 
   // ENDGAME
   function endGame() {
+    play(bgMusic)
+    play(gameOver)
+    document.querySelector('#pause-btn').style.display = 'none';
     document.querySelector("#scoreNum").innerHTML = score;
     document.querySelector("#health-points").innerHTML = `${0}%`;
     cancelAnimationFrame(gameloop)
