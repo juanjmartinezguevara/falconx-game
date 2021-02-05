@@ -309,11 +309,12 @@ function shipAstCollision(ship, ast) {
     (ship.y + 52) + ship.h > ast.y
   ) {
     // console.log("SHIP Collision!");
+    play(explosionSpaceShip)
     sasteroids.splice(sasteroids.indexOf(ast), 1);
     health -= 5;
     shipHit = 100;
 
-    if (health == 0) {
+    if (health <= 5) {
       endGame();
     }
 
@@ -393,11 +394,12 @@ function shipAstCollision2(ship, ast) {
     ship.y < ast.y + ast.h &&
     ship.y + ship.h > ast.y
   ) {
+    play(explosionSpaceShip)
     console.log("SHIP Collision!");
     masteroids.splice(masteroids.indexOf(ast), 1);
     health -= 10;
 
-    if (health == 0) {
+    if (health <= 0) {
       endGame()
     }
 
@@ -477,11 +479,12 @@ function shipAstCollision3(ship, ast) {
     ship.y < ast.y + ast.h &&
     ship.y + ship.h > ast.y
   ) {
+    play(explosionSpaceShip)
     console.log("SHIP Collision!");
     lasteroids.splice(lasteroids.indexOf(ast), 1);
     health -= 15;
 
-    if (health == 0) {
+    if (health <=5) {
       endGame()
     }
 
@@ -638,6 +641,8 @@ addEventListener("click", (event) => {
 
   let actualMouseClickX = event.clientX - canvasXY.x;
   let actualMouseClickY = event.clientY - canvasXY.y;
+  
+play(gunSound)
 
   let centerShipX = falcon.x + 52;
   let centerShipY = falcon.y + 70;
@@ -678,7 +683,7 @@ let bgMusic = new Audio("./sounds/gameplayAndromedaJourney.mp3");
 let gameOver = new Audio("./sounds/sta");
 
 let explosionAsteroid = new Audio("./sounds/Explosion+3.mp3");
-let explosionSapaceShip = new Audio("./sounds/Explosion+4.mp3");
+let explosionSpaceShip = new Audio("./sounds/Explosion+4.mp3");
 let gameStart = new Audio("./sounds/gameStart.mp3");
 let gunSound = new Audio("./sounds/GunSound.mp3");
 
