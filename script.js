@@ -35,7 +35,7 @@ window.onresize = function () {
 const scoreNum = document.querySelector("#scoreNum");
 
 //>>> Health and Mana Bars
-let health = 100;
+let health = 10000;
 let mana = 100;
 
 document.getElementById("health-points").innerHTML = `${health}%`;
@@ -51,29 +51,17 @@ level = 1;
 document.getElementById("scoreNum").innerHTML = score;
 document.getElementById("levelNum").innerHTML = level;
 
+let audioPlaying = false
+
 //>>> Buttons
-function startGame() {
-  let startScreen = document.getElementById("start-screen");
-  if (startScreen.style.display === "none") {
-    startScreen.style.display = "flex";
-  } else {
-    startScreen.style.display = "none";
-  }
-  play(bgMusic)
-  cancelAnimationFrame(gameloop)
-  animate()
-}
+
 
 
 let pausedSound = false
 let paused = false
 
 
-  if (pausedSound===false) {
-    let pausedSound = true
-  } else { let pausedSound = false}
-
-function pause() {
+function gamePause() {
   let startScreen = document.getElementById("start-screen");
 
   if (paused) {
@@ -740,9 +728,8 @@ play(gunSound)
 //*************SOUND*////////////////////  
 
 function play(audioName) {
-  if (pausedSound) {
+  if (paused) {
     audioName.pause();
-    
   } else {
     audioName.play();
   }
@@ -752,12 +739,48 @@ function play(audioName) {
 let bgMusic = new Audio("./sounds/gameplayAndromedaJourney.mp3");
 
 // let gameOver = new Audio("./sounds/gameOver.mp3");
-let gameOver = new Audio("./sounds/sta");
+let gameOver = new Audio("./sounds/gameoverStarMasterLoop.wav");
 
 let explosionAsteroid = new Audio("./sounds/Explosion+3.mp3");
 let explosionSpaceShip = new Audio("./sounds/Explosion+4.mp3");
 let gameStart = new Audio("./sounds/gameStart.mp3");
 let gunSound = new Audio("./sounds/GunSound.mp3");
+
+function muteMe(elem) {
+  console.log(elem.muted)
+  if (elem.muted) {
+    elem.muted=false;
+    elem.play()
+  } else {
+  elem.muted = true;
+  elem.pause();
+  }
+}
+
+//play(bgMusic)
+
+// Try to mute all video and audio elements on the page
+function mutePage() {
+  [bgMusic, gunSound, gameStart, explosionAsteroid, explosionSpaceShip].forEach( elem => muteMe(elem) );
+}
+
+document.querySelector(".toggleSound").onclick = mutePage
+
+function startGame() {
+  let startScreen = document.getElementById("start-screen");
+  if (startScreen.style.display === "none") {
+    startScreen.style.display = "flex";
+  } else {
+    startScreen.style.display = "none";
+  }
+  if (!audioPlaying) {
+  play(bgMusic)
+  audioPlaying = true
+  }
+  cancelAnimationFrame(gameloop)
+  animate()
+}
+
 
 // ENDGAME
 function endGame() {

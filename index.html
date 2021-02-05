@@ -12,7 +12,7 @@
     <!-- <div id='hamburger-menu'></div> -->
  
     <!-- <canvas id="canvas"></canvas> -->
-    <button id="pause-btn" onclick="pause()" href="#">⏯</button>
+    <button id="pause-btn" onclick="gamePause()" href="#">⏯</button>
     <div id="start-screen">
       <div id="start-message">
         <h1>How to Play</h1>
@@ -28,8 +28,8 @@
           <li>To begin, click the start button! Don't die LOSER!</li>
           
         </ol>
-        <button id="start-btn" onclick="startGame()" href="#">Start game</button>
-        <button id="sound-btn" onclick='play(bgMusic)' href="#">🔇</button>
+        <button class="startGame" id="start-btn" onclick="startGame()" href="#">Start game</button>
+        <button class="toggleSound" id="sound-btn" onclick='play(bgMusic)' href="#">🔇</button>
       </div>
     </div>
     <!-- <canvas></canvas> -->
@@ -60,7 +60,7 @@
           <h2>Score: <span id="finalScore">000</span></h2>
         </div>
         <button id="replay-btn" onclick='replay()' href="#">Play Again</button>
-        <button id="sound-btn" onclick='play(gameOver)' href="#">🔇</button>
+        <button class="gameOver" id="sound-btn" onclick='play(gameOver)' href="#">🔇</button>
       </div>
     </div>
     <script src="./script.js"></script>
