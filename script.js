@@ -35,7 +35,7 @@ window.onresize = function () {
 const scoreNum = document.querySelector("#scoreNum");
 
 //>>> Health and Mana Bars
-let health = 10000;
+let health = 100;
 let mana = 100;
 
 document.getElementById("health-points").innerHTML = `${health}%`;
