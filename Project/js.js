@@ -645,7 +645,8 @@ function detectCollision(rect1, rect2) {
         laser.h = laser.radius * 2;
         detectCollision(laser, sasteroid);
     });
- /////////////////////////////////////masteroids
+ /////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////masteroid
     masteroids.forEach((masteroid) => {
         //sasteroid.update();
         shipAstCollision2(falcon, masteroid);
@@ -659,9 +660,9 @@ function detectCollision(rect1, rect2) {
             laser.h = laser.radius * 2;
             detectCollision2(laser, masteroid);
         });
-//////////////////////////////////////largeroids
+/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////lasteroid
 lasteroids.forEach((lasteroid) => {
-    //sasteroid.update();
     shipAstCollision3(falcon, lasteroid);
   });
 
