@@ -313,7 +313,7 @@ function shipAstCollision(ship, ast) {
     health -= 5;
     shipHit = 100;
 
-    if (health == 0) {
+    if (health <= 5) {
       endGame();
     }
 
