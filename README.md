@@ -1,4 +1,7 @@
-********************************FALCON X THE GAME***********************************
+**Falcon X - Game**
+
+Deployed at https://juanjmartinezguevara.github.io/falconx-game/
+
 Out team has decided to create a simple and good taste "arcade" type of game.
 The game starts with our "Falcon X" spaceship that encounters a variety of asteroids in outerspace.
 The orientation of space ships's shooting angle is directed by the mouse coursor and shooting is activated by left mouse click.
